@@ -1,5 +1,6 @@
 
-import { ShoppingCart, CreditCard, DollarSign, MessageSquare, Phone } from "lucide-react";
+import { ShoppingCart, CreditCard, DollarSign, MessageSquare, Phone, Search } from "lucide-react";
+import { Input } from "@/components/ui/input";
 
 export const ActivityList = () => {
   const activities = [
@@ -65,6 +66,15 @@ export const ActivityList = () => {
 
   return (
     <div className="space-y-4">
+      {/* Search bar for events */}
+      <div className="relative">
+        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+        <Input 
+          placeholder="pesquisar evento..." 
+          className="pl-10 bg-white border border-gray-200 text-sm"
+        />
+      </div>
+
       {/* Quick Actions */}
       <div className="grid grid-cols-3 gap-3">
         {activities.slice(0, 3).map((activity, index) => (
