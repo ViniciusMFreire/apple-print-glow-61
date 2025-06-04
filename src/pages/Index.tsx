@@ -13,9 +13,9 @@ const Index = () => {
       <div className="max-w-7xl mx-auto p-4 space-y-6">
         <DashboardHeader />
         
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
-          {/* Left Column - 3 columns width */}
-          <div className="lg:col-span-3 space-y-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {/* Left Column - 1/2 width */}
+          <div className="space-y-6">
             <UserProfile />
             <AccountStats />
             <LimitsSection />
@@ -23,8 +23,8 @@ const Index = () => {
             <RecentMovements />
           </div>
           
-          {/* Right Column - 2 columns width for more space */}
-          <div className="lg:col-span-2 space-y-6">
+          {/* Right Column - 1/2 width */}
+          <div className="space-y-6">
             <ActivityList />
           </div>
         </div>
