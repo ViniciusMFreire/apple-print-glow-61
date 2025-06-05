@@ -1,11 +1,11 @@
 
-import { Calendar, Scissors, DollarSign } from "lucide-react";
+import { Calendar, FileText, DollarSign } from "lucide-react";
 import { getResponsiveClasses, getGridClasses } from "@/utils/responsiveUtils";
 
 export const InvoiceSection = () => {
   const invoiceData = [
     { title: "Vencimento", value: "01/06/2024", icon: Calendar, bgColor: "bg-gray-100", iconColor: "text-gray-600" },
-    { title: "Corte", value: "20/05/2024", icon: Scissors, bgColor: "bg-gray-100", iconColor: "text-gray-600" },
+    { title: "Corte", value: "20/05/2024", icon: FileText, bgColor: "bg-gray-100", iconColor: "text-gray-600" },
     { title: "Valor", value: "R$ 3.630,30", icon: DollarSign, bgColor: "bg-green-100", iconColor: "text-green-600" }
   ];
 
