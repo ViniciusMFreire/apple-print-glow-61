@@ -2,6 +2,8 @@
 import { getResponsiveClasses } from "@/utils/responsiveUtils";
 
 export const UserProfile = () => {
+  const hasDigitalAccount = true; // This would come from your data source
+
   return (
     <div className={`bg-white rounded-lg shadow-sm ${getResponsiveClasses.padding.md}`}>
       <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
@@ -23,6 +25,13 @@ export const UserProfile = () => {
               Cliente <span className="text-orange-500 font-bold">Colaborador</span>
             </span>
             <span className="text-gray-600">Pessoa Física</span>
+            <span className="text-black">
+              {hasDigitalAccount ? (
+                <>Possui <span className="text-green-600 font-bold">conta digital</span></>
+              ) : (
+                <>Não possui <span className="text-red-600 font-bold">conta digital</span></>
+              )}
+            </span>
           </div>
         </div>
       </div>
