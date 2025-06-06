@@ -65,7 +65,10 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
-				}
+				},
+				// Style guide colors
+				'verde-dark': 'hsl(var(--verde-dark))',
+				'amarela-normal': 'hsl(var(--amarela-normal))'
 			},
 			borderRadius: {
 				lg: 'var(--radius)',

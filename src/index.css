@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -35,20 +36,17 @@
     --radius: 0.5rem;
 
     --sidebar-background: 0 0% 98%;
-
     --sidebar-foreground: 240 5.3% 26.1%;
-
     --sidebar-primary: 240 5.9% 10%;
-
     --sidebar-primary-foreground: 0 0% 98%;
-
     --sidebar-accent: 240 4.8% 95.9%;
-
     --sidebar-accent-foreground: 240 5.9% 10%;
-
     --sidebar-border: 220 13% 91%;
-
     --sidebar-ring: 217.2 91.2% 59.8%;
+
+    /* Style guide colors */
+    --verde-dark: 146 100% 11.4%; /* #00431d - Verde Dark para textos principais */
+    --amarela-normal: 52 100% 45.1%; /* #e6cd00 - Amarela Normal para destaques */
   }
 
   .dark {
@@ -87,6 +85,10 @@
     --sidebar-accent-foreground: 240 4.8% 95.9%;
     --sidebar-border: 240 3.7% 15.9%;
     --sidebar-ring: 217.2 91.2% 59.8%;
+
+    /* Style guide colors for dark mode */
+    --verde-dark: 146 100% 11.4%;
+    --amarela-normal: 52 100% 45.1%;
   }
 }
 
