@@ -20,12 +20,20 @@ export const AccountStats = () => {
     },
     { 
       title: "Atraso", 
-      value: "0", 
+      value: "5468 Dias", 
       color: "orange",
       bgColor: "bg-orange-100", 
       iconColor: "text-orange-500",
       icon: Clock,
-      details: "Nenhum dia de atraso nas faturas do cliente."
+      details: "Cliente possui débitos em atraso há 5468 dias.",
+      delayDetails: {
+        status: "Em ABERTO - FATURA SALDO CONGELADO - CONTRATO",
+        date: "10/06/2010",
+        installment: "Parcela 1",
+        totalValue: "R$ 145,90",
+        openValue: "R$ 90,81",
+        delayValue: "R$ 90,81"
+      }
     },
     { 
       title: "Cartão Ativo", 
@@ -88,6 +96,33 @@ export const AccountStats = () => {
                           </p>
                         </div>
                       ))}
+                    </div>
+                  ) : stat.title === "Atraso" && stat.delayDetails ? (
+                    <div className="space-y-3 mt-4">
+                      <div className="p-3 bg-orange-50 rounded-lg border-l-4 border-orange-400">
+                        <div className="space-y-2">
+                          <p className="text-sm font-semibold text-orange-800">
+                            {stat.delayDetails.status}
+                          </p>
+                          <p className="text-sm text-gray-700">
+                            <span className="font-medium">Data:</span> {stat.delayDetails.date}
+                          </p>
+                          <div className="grid grid-cols-1 gap-2 text-sm">
+                            <p className="text-gray-700">
+                              <span className="font-medium">{stat.delayDetails.installment}</span>
+                            </p>
+                            <p className="text-gray-700">
+                              <span className="font-medium">Valor Total:</span> {stat.delayDetails.totalValue}
+                            </p>
+                            <p className="text-gray-700">
+                              <span className="font-medium">Valor em Aberto:</span> {stat.delayDetails.openValue}
+                            </p>
+                            <p className="text-orange-700 font-semibold">
+                              <span className="font-medium">Atraso:</span> {stat.delayDetails.delayValue}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   ) : (
                     <div className={`text-2xl font-bold text-${stat.color}-600`}>
