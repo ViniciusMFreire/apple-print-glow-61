@@ -12,7 +12,7 @@ export const RecentMovements = () => {
   return (
     <div className={`bg-white rounded-lg shadow-sm ${getResponsiveClasses.padding.md}`}>
       <h3 className={`font-semibold text-gray-900 mb-4 ${getResponsiveClasses.textSize.base}`}>
-        Últimas transações
+        Últimas Transações
       </h3>
       
       <div className="space-y-3">

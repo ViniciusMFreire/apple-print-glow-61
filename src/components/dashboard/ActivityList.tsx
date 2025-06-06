@@ -25,7 +25,7 @@ export const ActivityList = () => {
     {
       icon: ShoppingCart,
       title: "Compra On Us",
-      subtitle: "Compra de $$$$$ na Lojas OQ 265",
+      subtitle: "Compra de R$ 150,00 nas Lojas OQ 265",
       date: "31/12/2022",
       color: "text-green-600",
       bg: "bg-green-50"
@@ -33,7 +33,7 @@ export const ActivityList = () => {
     {
       icon: CreditCard,
       title: "Compra Off Us", 
-      subtitle: "Compra de $$$$$ na Lojas OQ 265",
+      subtitle: "Compra de R$ 85,50 nas Lojas ABC 123",
       date: "31/12/2022",
       color: "text-blue-600",
       bg: "bg-blue-50"
@@ -56,8 +56,8 @@ export const ActivityList = () => {
     },
     {
       icon: Phone,
-      title: "Atendimento Telefone",
-      subtitle: "Atendimento Telefone", 
+      title: "Atendimento Telefônico",
+      subtitle: "Atendimento telefônico", 
       date: "31/12/2022",
       color: "text-blue-600",
       bg: "bg-blue-50"
@@ -66,7 +66,7 @@ export const ActivityList = () => {
 
   return (
     <div className="space-y-4">
-      {/* Search bar for events */}
+      {/* Campo de busca para eventos */}
       <div className="relative">
         <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
         <Input 
@@ -75,7 +75,7 @@ export const ActivityList = () => {
         />
       </div>
 
-      {/* Quick Actions */}
+      {/* Ações Rápidas */}
       <div className="grid grid-cols-3 gap-3">
         {activities.slice(0, 3).map((activity, index) => (
           <div key={index} className="bg-white rounded-lg p-4 shadow-sm text-center">
@@ -87,7 +87,7 @@ export const ActivityList = () => {
         ))}
       </div>
 
-      {/* Activity List */}
+      {/* Lista de Atividades */}
       <div className="bg-white rounded-lg shadow-sm">
         {activities.slice(3).map((activity, index) => (
           <div key={index} className="flex items-center gap-4 p-4 border-b last:border-b-0">

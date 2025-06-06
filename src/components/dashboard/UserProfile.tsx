@@ -2,7 +2,7 @@
 import { getResponsiveClasses } from "@/utils/responsiveUtils";
 
 export const UserProfile = () => {
-  const hasDigitalAccount = true; // This would come from your data source
+  const hasDigitalAccount = true;
 
   return (
     <div className={`bg-white rounded-lg shadow-sm ${getResponsiveClasses.padding.md}`}>
