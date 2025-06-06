@@ -54,7 +54,7 @@ export const AccountStats = () => {
                   <PopoverTrigger asChild>
                     <div className={`bg-white rounded-lg shadow-sm text-center cursor-pointer hover:shadow-md transition-shadow ${getResponsiveClasses.padding.sm}`}>
                       <div className={`w-8 h-8 ${stat.bgColor} rounded-full flex items-center justify-center mx-auto mb-2`}>
-                        <IconComponent className={`w-4 h-4 ${stat.iconColor}`} />
+                        <IconComponent className={`w-5 h-5 ${stat.iconColor}`} />
                       </div>
                       <h3 className={`font-medium text-gray-900 ${getResponsiveClasses.textSize.sm}`}>
                         {stat.title}
