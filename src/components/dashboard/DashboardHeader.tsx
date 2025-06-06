@@ -12,7 +12,7 @@ export const DashboardHeader = () => {
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
           <Input 
             placeholder="Pesquise por conta, CPF, CNPJ, telefone, contrato ou pedido..." 
-            className="pl-10 w-full sm:w-80 md:w-96 lg:w-[500px] bg-gray-50 border-none text-sm hover:border-2 hover:border-verde-dark focus-visible:border-2 focus-visible:border-verde-dark transition-all duration-200"
+            className="pl-10 w-full sm:w-80 md:w-96 lg:w-[500px] bg-gray-50 border-none text-sm hover:border-2 hover:border-[#007030] focus-visible:border-2 focus-visible:border-[#007030] transition-all duration-200"
           />
         </div>
       </div>
