@@ -1,110 +1,124 @@
 
-import { ShoppingCart, CreditCard, DollarSign, MessageSquare, Phone, Search } from "lucide-react";
+import { Search, CreditCard, ShoppingBag, Headphones, Bell, Calendar, Clock, DollarSign } from "lucide-react";
 import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
+import { getResponsiveClasses } from "@/utils/responsiveUtils";
 
 export const ActivityList = () => {
   const activities = [
     {
+      id: 1,
+      type: "Cartão",
       icon: CreditCard,
-      title: "Cartão",
-      color: "text-green-600",
-      bg: "bg-green-50"
+      title: "Cartão de Débito",
+      subtitle: "Final 1234",
+      time: "14:30",
+      amount: "-R$ 45,00",
+      status: "completed"
     },
     {
-      icon: ShoppingCart,
-      title: "Compras",
-      color: "text-blue-600", 
-      bg: "bg-blue-50"
+      id: 2,
+      type: "Compras",
+      icon: ShoppingBag,
+      title: "Mercado São João",
+      subtitle: "Compra aprovada",
+      time: "12:15",
+      amount: "-R$ 127,50",
+      status: "completed"
     },
     {
-      icon: CreditCard,
-      title: "Atendimento",
-      color: "text-purple-600",
-      bg: "bg-purple-50"
-    },
-    {
-      icon: ShoppingCart,
-      title: "Compra On Us",
-      subtitle: "Compra de R$ 150,00 nas Lojas OQ 265",
-      date: "31/12/2022",
-      color: "text-green-600",
-      bg: "bg-green-50"
-    },
-    {
-      icon: CreditCard,
-      title: "Compra Off Us", 
-      subtitle: "Compra de R$ 85,50 nas Lojas ABC 123",
-      date: "31/12/2022",
-      color: "text-blue-600",
-      bg: "bg-blue-50"
-    },
-    {
-      icon: DollarSign,
-      title: "Pagamento Fatura",
-      subtitle: "Pagamento de fatura",
-      date: "31/12/2022",
-      color: "text-green-600",
-      bg: "bg-green-50"
-    },
-    {
-      icon: MessageSquare,
-      title: "Atendimento WhatsApp",
-      subtitle: "Atendimento WhatsApp",
-      date: "31/12/2022",
-      color: "text-green-600",
-      bg: "bg-green-50"
-    },
-    {
-      icon: Phone,
-      title: "Atendimento Telefônico",
-      subtitle: "Atendimento telefônico", 
-      date: "31/12/2022",
-      color: "text-blue-600",
-      bg: "bg-blue-50"
+      id: 3,
+      type: "Atendimento",
+      icon: Headphones,
+      title: "Suporte técnico",
+      subtitle: "Chamado #12345",
+      time: "10:45",
+      amount: "",
+      status: "pending"
     }
   ];
 
   return (
-    <div className="space-y-4">
-      {/* Campo de busca para eventos */}
-      <div className="relative">
-        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-        <Input 
-          placeholder="pesquisar evento..." 
-          className="pl-10 bg-white border border-gray-200 text-sm"
-        />
-      </div>
+    <div className={`bg-white rounded-lg shadow-sm ${getResponsiveClasses.padding.md}`}>
+      <div className="flex flex-col space-y-4">
+        <div className="flex items-center justify-between">
+          <h3 className={`font-semibold text-gray-900 ${getResponsiveClasses.textSize.lg}`}>
+            Atividades Recentes
+          </h3>
+          <Bell className={`text-gray-400 ${getResponsiveClasses.iconSize.md}`} />
+        </div>
+        
+        <div className="relative">
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+          <Input 
+            placeholder="Pesquisar evento..." 
+            className="pl-10 bg-gray-50 border border-gray-200 text-sm hover:border-2 hover:border-verde-dark focus-visible:border-2 focus-visible:border-verde-dark transition-all duration-200"
+          />
+        </div>
 
-      {/* Ações Rápidas */}
-      <div className="grid grid-cols-3 gap-3">
-        {activities.slice(0, 3).map((activity, index) => (
-          <div key={index} className="bg-white rounded-lg p-4 shadow-sm text-center">
-            <div className={`w-8 h-8 ${activity.bg} rounded-lg flex items-center justify-center mx-auto mb-2`}>
-              <activity.icon className={`h-4 w-4 ${activity.color}`} />
-            </div>
-            <p className="text-sm font-medium text-gray-900">{activity.title}</p>
+        <div className="grid grid-cols-3 gap-2 md:gap-4">
+          <div className="flex flex-col items-center p-3 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors cursor-pointer">
+            <CreditCard className={`text-blue-600 mb-2 ${getResponsiveClasses.iconSize.md}`} />
+            <span className={`text-blue-700 font-medium text-center ${getResponsiveClasses.textSize.xs}`}>
+              Cartão
+            </span>
           </div>
-        ))}
-      </div>
+          
+          <div className="flex flex-col items-center p-3 bg-green-50 rounded-lg hover:bg-green-100 transition-colors cursor-pointer">
+            <ShoppingBag className={`text-green-600 mb-2 ${getResponsiveClasses.iconSize.md}`} />
+            <span className={`text-green-700 font-medium text-center ${getResponsiveClasses.textSize.xs}`}>
+              Compras
+            </span>
+          </div>
+          
+          <div className="flex flex-col items-center p-3 bg-purple-50 rounded-lg hover:bg-purple-100 transition-colors cursor-pointer">
+            <Headphones className={`text-purple-600 mb-2 ${getResponsiveClasses.iconSize.md}`} />
+            <span className={`text-purple-700 font-medium text-center ${getResponsiveClasses.textSize.xs}`}>
+              Atendimento
+            </span>
+          </div>
+        </div>
 
-      {/* Lista de Atividades */}
-      <div className="bg-white rounded-lg shadow-sm">
-        {activities.slice(3).map((activity, index) => (
-          <div key={index} className="flex items-center gap-4 p-4 border-b last:border-b-0">
-            <div className={`w-10 h-10 ${activity.bg} rounded-lg flex items-center justify-center flex-shrink-0`}>
-              <activity.icon className={`h-5 w-5 ${activity.color}`} />
-            </div>
-            <div className="flex-1 min-w-0">
-              <h4 className="font-medium text-gray-900">{activity.title}</h4>
-              {activity.subtitle && (
-                <p className="text-sm text-gray-600 truncate">{activity.subtitle}</p>
-              )}
-            </div>
-            {activity.date && (
-              <span className="text-sm text-gray-500 flex-shrink-0">{activity.date}</span>
-            )}
-          </div>
-        ))}
+        <div className="space-y-3">
+          {activities.map((activity) => {
+            const IconComponent = activity.icon;
+            return (
+              <div key={activity.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center shadow-sm">
+                    <IconComponent className="h-5 w-5 text-gray-600" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2">
+                      <p className={`font-medium text-gray-900 truncate ${getResponsiveClasses.textSize.sm}`}>
+                        {activity.title}
+                      </p>
+                      <Badge variant={activity.status === "completed" ? "default" : "secondary"} className="text-xs">
+                        {activity.type}
+                      </Badge>
+                    </div>
+                    <p className={`text-gray-600 truncate ${getResponsiveClasses.textSize.xs}`}>
+                      {activity.subtitle}
+                    </p>
+                  </div>
+                </div>
+                <div className="flex flex-col items-end gap-1">
+                  <div className="flex items-center gap-1">
+                    <Clock className="h-3 w-3 text-gray-400" />
+                    <span className={`text-gray-500 ${getResponsiveClasses.textSize.xs}`}>
+                      {activity.time}
+                    </span>
+                  </div>
+                  {activity.amount && (
+                    <span className={`font-semibold ${activity.amount.includes('-') ? 'text-red-600' : 'text-green-600'} ${getResponsiveClasses.textSize.sm}`}>
+                      {activity.amount}
+                    </span>
+                  )}
+                </div>
+              </div>
+            );
+          })}
+        </div>
       </div>
     </div>
   );
