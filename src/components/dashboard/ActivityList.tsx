@@ -1,3 +1,4 @@
+
 import { Search, CreditCard, ShoppingBag, Headphones, Bell, Calendar, Clock, DollarSign, Users, Smartphone, Info, MessageCircle, Grid3X3 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
@@ -56,29 +57,6 @@ export const ActivityList = () => {
         </div>
 
         <div className="grid grid-cols-3 gap-2 md:gap-4">
-          <div className="flex flex-col items-center p-3 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors cursor-pointer">
-            <CreditCard className={`text-blue-600 mb-2 ${getResponsiveClasses.iconSize.md}`} />
-            <span className={`text-blue-700 font-medium text-center ${getResponsiveClasses.textSize.xs}`}>
-              Cartão
-            </span>
-          </div>
-          
-          <div className="flex flex-col items-center p-3 bg-green-50 rounded-lg hover:bg-green-100 transition-colors cursor-pointer">
-            <ShoppingBag className={`text-green-600 mb-2 ${getResponsiveClasses.iconSize.md}`} />
-            <span className={`text-green-700 font-medium text-center ${getResponsiveClasses.textSize.xs}`}>
-              Compras
-            </span>
-          </div>
-          
-          <div className="flex flex-col items-center p-3 bg-purple-50 rounded-lg hover:bg-purple-100 transition-colors cursor-pointer">
-            <Headphones className={`text-purple-600 mb-2 ${getResponsiveClasses.iconSize.md}`} />
-            <span className={`text-purple-700 font-medium text-center ${getResponsiveClasses.textSize.xs}`}>
-              Atendimento
-            </span>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-3 gap-2 md:gap-4">
           <div className="flex flex-col items-center p-3 bg-orange-50 rounded-lg hover:bg-orange-100 transition-colors cursor-pointer">
             <Users className={`text-orange-600 mb-2 ${getResponsiveClasses.iconSize.md}`} />
             <span className={`text-orange-700 font-medium text-center ${getResponsiveClasses.textSize.xs}`}>
@@ -86,26 +64,40 @@ export const ActivityList = () => {
             </span>
           </div>
           
-          <div className="flex flex-col items-center p-3 bg-indigo-50 rounded-lg hover:bg-indigo-100 transition-colors cursor-pointer">
-            <Smartphone className={`text-indigo-600 mb-2 ${getResponsiveClasses.iconSize.md}`} />
-            <span className={`text-indigo-700 font-medium text-center ${getResponsiveClasses.textSize.xs}`}>
-              Aplicativo
+          <div className="flex flex-col items-center p-3 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors cursor-pointer">
+            <CreditCard className={`text-blue-600 mb-2 ${getResponsiveClasses.iconSize.md}`} />
+            <span className={`text-blue-700 font-medium text-center ${getResponsiveClasses.textSize.xs}`}>
+              Cartão
             </span>
           </div>
           
-          <div className="flex flex-col items-center p-3 bg-emerald-50 rounded-lg hover:bg-emerald-100 transition-colors cursor-pointer">
-            <MessageCircle className={`text-emerald-600 mb-2 ${getResponsiveClasses.iconSize.md}`} />
-            <span className={`text-emerald-700 font-medium text-center ${getResponsiveClasses.textSize.xs}`}>
-              Atendimento
-            </span>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-1 gap-2 md:gap-4">
           <div className="flex flex-col items-center p-3 bg-teal-50 rounded-lg hover:bg-teal-100 transition-colors cursor-pointer">
             <Grid3X3 className={`text-teal-600 mb-2 ${getResponsiveClasses.iconSize.md}`} />
             <span className={`text-teal-700 font-medium text-center ${getResponsiveClasses.textSize.xs}`}>
               Conta Digital
+            </span>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-3 gap-2 md:gap-4">
+          <div className="flex flex-col items-center p-3 bg-indigo-50 rounded-lg hover:bg-indigo-100 transition-colors cursor-pointer">
+            <Smartphone className={`text-indigo-600 mb-2 ${getResponsiveClasses.iconSize.md}`} />
+            <span className={`text-indigo-700 font-medium text-center ${getResponsiveClasses.textSize.xs}`}>
+              QQPAG
+            </span>
+          </div>
+          
+          <div className="flex flex-col items-center p-3 bg-green-50 rounded-lg hover:bg-green-100 transition-colors cursor-pointer">
+            <ShoppingBag className={`text-green-600 mb-2 ${getResponsiveClasses.iconSize.md}`} />
+            <span className={`text-green-700 font-medium text-center ${getResponsiveClasses.textSize.xs}`}>
+              Mercantil
+            </span>
+          </div>
+          
+          <div className="flex flex-col items-center p-3 bg-purple-50 rounded-lg hover:bg-purple-100 transition-colors cursor-pointer">
+            <Headphones className={`text-purple-600 mb-2 ${getResponsiveClasses.iconSize.md}`} />
+            <span className={`text-purple-700 font-medium text-center ${getResponsiveClasses.textSize.xs}`}>
+              Atendimento Canais Críticos
             </span>
           </div>
         </div>
