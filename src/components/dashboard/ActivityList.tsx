@@ -1,3 +1,4 @@
+
 import { Search, CreditCard, ShoppingBag, Headphones, Bell, Calendar, Clock, DollarSign, Users, Smartphone, Info, MessageCircle, Grid3X3, CalendarIcon } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
@@ -28,7 +29,10 @@ export const ActivityList = () => {
       subtitle: "Final 1234",
       time: "14:30",
       amount: "-R$ 45,00",
-      status: "completed"
+      status: "completed",
+      details: {
+        description: "Compra no Cartão 5091.51**.****.0430 no Valor de R$ 45,00 realizado nas Lojas Quero Quero em 29/05/2025"
+      }
     },
     {
       id: 2,
@@ -38,7 +42,10 @@ export const ActivityList = () => {
       subtitle: "Compra aprovada",
       time: "12:15",
       amount: "-R$ 127,50",
-      status: "completed"
+      status: "completed",
+      details: {
+        description: "Compra no estabelecimento Mercado São João no valor de R$ 127,50 realizada em 29/05/2025"
+      }
     },
     {
       id: 3,
@@ -48,7 +55,10 @@ export const ActivityList = () => {
       subtitle: "Chamado #12345",
       time: "10:45",
       amount: "",
-      status: "pending"
+      status: "pending",
+      details: {
+        description: "Atendimento de suporte técnico - Chamado #12345 aberto em 29/05/2025"
+      }
     }
   ];
 
@@ -215,39 +225,53 @@ export const ActivityList = () => {
           {activities.map((activity) => {
             const IconComponent = activity.icon;
             return (
-              <div key={activity.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center shadow-sm">
-                    <IconComponent className="h-5 w-5 text-gray-600" />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2">
-                      <p className={`font-medium text-gray-900 truncate ${getResponsiveClasses.textSize.sm}`}>
-                        {activity.title}
-                      </p>
-                      <Badge variant={activity.status === "completed" ? "default" : "secondary"} className="text-xs">
-                        {activity.type}
-                      </Badge>
+              <Popover key={activity.id}>
+                <PopoverTrigger asChild>
+                  <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center shadow-sm">
+                        <IconComponent className="h-5 w-5 text-gray-600" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2">
+                          <p className={`font-medium text-gray-900 truncate ${getResponsiveClasses.textSize.sm}`}>
+                            {activity.title}
+                          </p>
+                          <Badge variant={activity.status === "completed" ? "default" : "secondary"} className="text-xs">
+                            {activity.type}
+                          </Badge>
+                        </div>
+                        <p className={`text-gray-600 truncate ${getResponsiveClasses.textSize.xs}`}>
+                          {activity.subtitle}
+                        </p>
+                      </div>
                     </div>
-                    <p className={`text-gray-600 truncate ${getResponsiveClasses.textSize.xs}`}>
-                      {activity.subtitle}
+                    <div className="flex flex-col items-end gap-1">
+                      <div className="flex items-center gap-1">
+                        <Clock className="h-3 w-3 text-gray-400" />
+                        <span className={`text-gray-500 ${getResponsiveClasses.textSize.xs}`}>
+                          {activity.time}
+                        </span>
+                      </div>
+                      {activity.amount && (
+                        <span className={`font-semibold ${activity.amount.includes('-') ? 'text-red-600' : 'text-green-600'} ${getResponsiveClasses.textSize.sm}`}>
+                          {activity.amount}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                </PopoverTrigger>
+                <PopoverContent className="w-80 p-4">
+                  <div className="space-y-2">
+                    <h4 className="font-semibold text-verde-dark text-lg">
+                      {activity.title}
+                    </h4>
+                    <p className="text-gray-600 text-sm leading-relaxed">
+                      {activity.details.description}
                     </p>
                   </div>
-                </div>
-                <div className="flex flex-col items-end gap-1">
-                  <div className="flex items-center gap-1">
-                    <Clock className="h-3 w-3 text-gray-400" />
-                    <span className={`text-gray-500 ${getResponsiveClasses.textSize.xs}`}>
-                      {activity.time}
-                    </span>
-                  </div>
-                  {activity.amount && (
-                    <span className={`font-semibold ${activity.amount.includes('-') ? 'text-red-600' : 'text-green-600'} ${getResponsiveClasses.textSize.sm}`}>
-                      {activity.amount}
-                    </span>
-                  )}
-                </div>
-              </div>
+                </PopoverContent>
+              </Popover>
             );
           })}
         </div>
