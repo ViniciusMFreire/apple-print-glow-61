@@ -34,7 +34,11 @@ export const AccountStats = () => {
       bgColor: "bg-green-100",
       iconColor: "text-green-500",
       icon: CreditCard,
-      details: "Cliente possui 2 cartões ativos no momento."
+      details: "Cliente possui 2 cartões ativos no momento.",
+      cardDetails: [
+        "5091.51**.****.6917 TITULAR - EMBOSSING - CHIP - LOJAS QUERO-QUERO S/A 263 - MULTIPLO - ELO",
+        "6278.94**.****.4696 AMIGO(A) - BLOQUEADO - VIRTUAL - LOJAS QUERO-QUERO S/A 263 - CHIP - VERDECARD"
+      ]
     }
   ];
 
@@ -70,13 +74,26 @@ export const AccountStats = () => {
                 </TooltipContent>
               </Tooltip>
               
-              <PopoverContent className="w-80">
+              <PopoverContent className="w-96">
                 <div className="space-y-2">
                   <h4 className="font-semibold text-gray-900">{stat.title}</h4>
                   <p className="text-sm text-gray-600">{stat.details}</p>
-                  <div className={`text-2xl font-bold text-${stat.color}-600`}>
-                    {stat.value}
-                  </div>
+                  
+                  {stat.title === "Cartão Ativo" && stat.cardDetails ? (
+                    <div className="space-y-3 mt-4">
+                      {stat.cardDetails.map((card, cardIndex) => (
+                        <div key={cardIndex} className="p-3 bg-gray-50 rounded-lg">
+                          <p className="text-sm font-mono text-gray-800 leading-relaxed">
+                            {card}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className={`text-2xl font-bold text-${stat.color}-600`}>
+                      {stat.value}
+                    </div>
+                  )}
                 </div>
               </PopoverContent>
             </Popover>
