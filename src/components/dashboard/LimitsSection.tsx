@@ -58,8 +58,11 @@ export const LimitsSection = () => {
             
             <div className="relative h-6 bg-gray-200 rounded">
               <div 
-                className="h-full bg-yellow-400 rounded transition-all duration-300"
-                style={{ width: `${limit.percentage}%` }}
+                className="h-full rounded transition-all duration-300"
+                style={{ 
+                  width: `${limit.percentage}%`,
+                  backgroundColor: '#007030'
+                }}
               />
             </div>
           </div>
