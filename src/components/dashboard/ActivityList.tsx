@@ -8,6 +8,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 import { getResponsiveClasses } from "@/utils/responsiveUtils";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
@@ -181,6 +182,13 @@ export const ActivityList = () => {
             </div>
           </div>
 
+          <Alert>
+            <Info className="h-4 w-4" />
+            <AlertDescription>
+              Limite máximo entre datas informadas não pode ser superior a 30 dias.
+            </AlertDescription>
+          </Alert>
+
           <div className="flex gap-2">
             <div className="relative flex-1">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
@@ -197,6 +205,10 @@ export const ActivityList = () => {
             </Button>
           </div>
         </div>
+
+        <h3 className={`font-semibold text-gray-900 ${getResponsiveClasses.textSize.lg}`}>
+          Últimos Eventos
+        </h3>
 
         <div className="space-y-3">
           {activities.map((activity) => {
