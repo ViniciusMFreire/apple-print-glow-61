@@ -1,4 +1,5 @@
 
+
 import { Search, CreditCard, ShoppingBag, Headphones, Bell, Calendar, Clock, DollarSign, Users, Smartphone, Info, MessageCircle, Grid3X3 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
@@ -94,6 +95,15 @@ export const ActivityList = () => {
             </span>
           </div>
           
+          <div className="flex flex-col items-center p-3 bg-cyan-50 rounded-lg hover:bg-cyan-100 transition-colors cursor-pointer">
+            <MessageCircle className={`text-cyan-600 mb-2 ${getResponsiveClasses.iconSize.md}`} />
+            <span className={`text-cyan-700 font-medium text-center ${getResponsiveClasses.textSize.xs}`}>
+              Atendimento
+            </span>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 gap-2 md:gap-4">
           <div className="flex flex-col items-center p-3 bg-purple-50 rounded-lg hover:bg-purple-100 transition-colors cursor-pointer">
             <Headphones className={`text-purple-600 mb-2 ${getResponsiveClasses.iconSize.md}`} />
             <span className={`text-purple-700 font-medium text-center ${getResponsiveClasses.textSize.xs}`}>
@@ -146,3 +156,4 @@ export const ActivityList = () => {
     </div>
   );
 };
+
