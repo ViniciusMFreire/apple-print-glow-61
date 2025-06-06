@@ -1,4 +1,3 @@
-
 import { Search, CreditCard, ShoppingBag, Headphones, Bell, Calendar, Clock, DollarSign, Users, Smartphone, Info, MessageCircle, Grid3X3, CalendarIcon } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
@@ -15,7 +14,7 @@ import { getResponsiveClasses } from "@/utils/responsiveUtils";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { cn } from "@/lib/utils";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export const ActivityList = () => {
   const [startDate, setStartDate] = useState<Date>();
@@ -82,7 +81,58 @@ export const ActivityList = () => {
     "Retirada de bloqueio [nome_bloqueio]"
   ];
 
-  // Mock data generator for search results
+  // Generate events for date range
+  const generateEventsForDateRange = (start: Date, end: Date, searchFilter?: string) => {
+    let eventsToGenerate = eventTypes;
+    
+    // If there's a search filter, only use matching events
+    if (searchFilter && searchFilter.trim()) {
+      eventsToGenerate = eventTypes.filter(event => 
+        event.toLowerCase().includes(searchFilter.toLowerCase())
+      );
+    }
+
+    const results = eventsToGenerate.flatMap(eventType => {
+      const numResults = Math.floor(Math.random() * 3) + 1; // 1-3 results per event type
+      return Array.from({ length: numResults }, (_, index) => {
+        // Generate random date within the range
+        const timeRange = end.getTime() - start.getTime();
+        const randomTime = Math.random() * timeRange;
+        const date = new Date(start.getTime() + randomTime);
+        
+        return {
+          id: `${eventType}-${index}-${Date.now()}-${Math.random()}`,
+          type: eventType,
+          date: date,
+          time: `${String(Math.floor(Math.random() * 24)).padStart(2, '0')}:${String(Math.floor(Math.random() * 60)).padStart(2, '0')}`,
+          description: `${eventType} realizado em ${format(date, "dd/MM/yyyy", { locale: ptBR })}`,
+          details: `Detalhes do evento ${eventType} ocorrido em ${format(date, "dd/MM/yyyy 'às' HH:mm", { locale: ptBR })}`
+        };
+      });
+    });
+
+    // Sort by date (most recent first)
+    results.sort((a, b) => b.date.getTime() - a.date.getTime());
+
+    return results;
+  };
+
+  // Effect to automatically show events when both dates are selected
+  useEffect(() => {
+    if (startDate && endDate) {
+      const results = generateEventsForDateRange(startDate, endDate, searchTerm);
+      setSearchResults(results);
+    } else {
+      // If search term exists but no date range, generate search results
+      if (searchTerm.trim()) {
+        generateSearchResults(searchTerm);
+      } else {
+        setSearchResults([]);
+      }
+    }
+  }, [startDate, endDate, searchTerm]);
+
+  // Mock data generator for search results (when no date range is selected)
   const generateSearchResults = (searchTerm: string) => {
     if (!searchTerm.trim()) {
       setSearchResults([]);
@@ -116,20 +166,16 @@ export const ActivityList = () => {
     // Sort by date (most recent first)
     results.sort((a, b) => b.date.getTime() - a.date.getTime());
 
-    // Filter by date range if both dates are selected
-    let filteredResults = results;
-    if (startDate && endDate) {
-      filteredResults = results.filter(result => {
-        const resultDate = result.date;
-        return resultDate >= startDate && resultDate <= endDate;
-      });
-    }
-
-    setSearchResults(filteredResults);
+    setSearchResults(results);
   };
 
   const handleSearch = () => {
-    generateSearchResults(searchTerm);
+    if (startDate && endDate) {
+      const results = generateEventsForDateRange(startDate, endDate, searchTerm);
+      setSearchResults(results);
+    } else {
+      generateSearchResults(searchTerm);
+    }
   };
 
   const activities = [
@@ -331,7 +377,10 @@ export const ActivityList = () => {
           {searchResults.length > 0 && (
             <div className="space-y-2">
               <h4 className={`font-medium text-gray-900 ${getResponsiveClasses.textSize.sm}`}>
-                Resultados da Pesquisa ({searchResults.length})
+                {startDate && endDate 
+                  ? `Eventos no período (${searchResults.length})`
+                  : `Resultados da Pesquisa (${searchResults.length})`
+                }
               </h4>
               <ScrollArea className="h-64 w-full border rounded-md p-3">
                 <div className="space-y-2">
