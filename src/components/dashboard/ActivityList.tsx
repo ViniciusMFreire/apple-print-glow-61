@@ -207,6 +207,10 @@ export const ActivityList = () => {
           Últimos Eventos
         </h3>
 
+        <p className="text-sm text-gray-600">
+          Eventos dos últimos 15 dias
+        </p>
+
         <div className="space-y-3">
           {activities.map((activity) => {
             const IconComponent = activity.icon;
