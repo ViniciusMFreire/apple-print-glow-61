@@ -101,3 +101,9 @@
     @apply bg-background text-foreground;
   }
 }
+
+@layer utilities {
+  .border-verde-dark {
+    border-color: hsl(var(--verde-dark));
+  }
+}
