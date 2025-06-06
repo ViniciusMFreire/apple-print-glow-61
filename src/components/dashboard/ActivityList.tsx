@@ -1,5 +1,3 @@
-
-
 import { Search, CreditCard, ShoppingBag, Headphones, Bell, Calendar, Clock, DollarSign, Users, Smartphone, Info, MessageCircle, Grid3X3 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
@@ -156,4 +154,3 @@ export const ActivityList = () => {
     </div>
   );
 };
-
