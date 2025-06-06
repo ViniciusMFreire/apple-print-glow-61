@@ -29,7 +29,7 @@ export const AccountStats = () => {
     },
     { 
       title: "Cartão Ativo", 
-      value: "2", 
+      value: "5091.51**.****.0430", 
       color: "green",
       bgColor: "bg-green-100",
       iconColor: "text-green-500",
