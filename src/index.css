@@ -45,7 +45,7 @@
     --sidebar-ring: 217.2 91.2% 59.8%;
 
     /* Style guide colors */
-    --verde-dark: 146 100% 11.4%; /* #00431d - Verde Dark para textos principais */
+    --verde-dark: 140 100% 22%; /* #007030 - Verde Dark para textos principais */
     --amarela-normal: 52 100% 45.1%; /* #e6cd00 - Amarela Normal para destaques */
   }
 
@@ -87,7 +87,7 @@
     --sidebar-ring: 217.2 91.2% 59.8%;
 
     /* Style guide colors for dark mode */
-    --verde-dark: 146 100% 11.4%;
+    --verde-dark: 140 100% 22%;
     --amarela-normal: 52 100% 45.1%;
   }
 }
