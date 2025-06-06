@@ -187,14 +187,6 @@ export const ActivityList = () => {
             </div>
           </div>
         </div>
-        
-        <div className="relative">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-          <Input 
-            placeholder="Pesquisar evento..." 
-            className="pl-10 bg-gray-50 border border-gray-200 text-sm hover:border-2 hover:border-verde-dark focus-visible:border-2 focus-visible:border-verde-dark transition-all duration-200"
-          />
-        </div>
 
         <div className="space-y-3">
           {activities.map((activity) => {
