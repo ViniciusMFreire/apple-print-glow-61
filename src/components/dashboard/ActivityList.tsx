@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Calendar as CalendarComponent } from "@/components/ui/calendar";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   Popover,
   PopoverContent,
@@ -19,6 +20,117 @@ import { useState } from "react";
 export const ActivityList = () => {
   const [startDate, setStartDate] = useState<Date>();
   const [endDate, setEndDate] = useState<Date>();
+  const [searchTerm, setSearchTerm] = useState("");
+  const [searchResults, setSearchResults] = useState<any[]>([]);
+
+  const eventTypes = [
+    "Ligação [regua]",
+    "Voll_WhatsApp SAC_Receptivo",
+    "Voll_WhatsApp SAC_7449",
+    "Voll_Telegram SAC",
+    "Voll_Faceb",
+    "Voll_Insta",
+    "Pesquisa de satisfação Voll",
+    "SMS [regua]",
+    "Retorno SMS [regua]",
+    "Voll_WhatsApp SAC_Receptivo [acaobot]",
+    "Email [regua]",
+    "Push APP [regua] QQ PAG",
+    "Acionamento Assessorias [cob]",
+    "Compra cartão de débito",
+    "Saída PIX",
+    "Recebimento PIX",
+    "Pagamento boleto",
+    "Receber boleto (Depositar)",
+    "Saque agendado [num filial]",
+    "Saque efetivado[num filial]",
+    "Saque efetivado em caixa 24h",
+    "Recarga de celular",
+    "AR Hub - Email",
+    "AR Hub - WhatsApp",
+    "Captura externa",
+    "Compra realizada",
+    "Devolução mercantil",
+    "Compra realizada no mercado livre QQ",
+    "Produto que foi comprado",
+    "Nota de pesquisa NPS mercantil",
+    "Colaborador",
+    "Id positiva_whatsapp",
+    "Inclusão de registro órgãos de proteção ao crédito",
+    "Fatura cortada",
+    "Gestor de contatos_carga [regua]",
+    "Gestor de contatos_efetivos [regua]",
+    "Compra cartão de crédito off-us",
+    "Compra cartão de crédito on-us",
+    "Empréstimo pessoal - depósito em conta",
+    "Empréstimo pessoal - saque em loja [filial]",
+    "Empréstimo pessoal - PIX Parcelado",
+    "Pagamentos Cartão QQ",
+    "Adesão PF",
+    "Adesão PT",
+    "Adesão PA",
+    "Adesão RN",
+    "Alteração limite automatica",
+    "Redução de limite automatica",
+    "Cadastro de chave PIX",
+    "Saque cancelado",
+    "Portal de negociação - login",
+    "Portal de negociação - simulação",
+    "Tarefa VerdeCob [nome_Tarefa]",
+    "Troca de medalha",
+    "Inclusão de bloqueio [nome_bloqueio]",
+    "Retirada de bloqueio [nome_bloqueio]"
+  ];
+
+  // Mock data generator for search results
+  const generateSearchResults = (searchTerm: string) => {
+    if (!searchTerm.trim()) {
+      setSearchResults([]);
+      return;
+    }
+
+    // Filter events that match the search term
+    const matchingEvents = eventTypes.filter(event => 
+      event.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
+    // Generate mock results with dates (most recent first)
+    const results = matchingEvents.flatMap(eventType => {
+      const numResults = Math.floor(Math.random() * 3) + 1; // 1-3 results per matching event
+      return Array.from({ length: numResults }, (_, index) => {
+        const daysAgo = Math.floor(Math.random() * 15); // Within last 15 days
+        const date = new Date();
+        date.setDate(date.getDate() - daysAgo);
+        
+        return {
+          id: `${eventType}-${index}-${Date.now()}`,
+          type: eventType,
+          date: date,
+          time: `${String(Math.floor(Math.random() * 24)).padStart(2, '0')}:${String(Math.floor(Math.random() * 60)).padStart(2, '0')}`,
+          description: `${eventType} realizado em ${format(date, "dd/MM/yyyy", { locale: ptBR })}`,
+          details: `Detalhes do evento ${eventType} ocorrido em ${format(date, "dd/MM/yyyy 'às' HH:mm", { locale: ptBR })}`
+        };
+      });
+    });
+
+    // Sort by date (most recent first)
+    results.sort((a, b) => b.date.getTime() - a.date.getTime());
+
+    // Filter by date range if both dates are selected
+    let filteredResults = results;
+    if (startDate && endDate) {
+      filteredResults = results.filter(result => {
+        const resultDate = result.date;
+        return resultDate >= startDate && resultDate <= endDate;
+      });
+    }
+
+    setSearchResults(filteredResults);
+  };
+
+  const handleSearch = () => {
+    generateSearchResults(searchTerm);
+  };
 
   const activities = [
     {
@@ -202,15 +314,68 @@ export const ActivityList = () => {
               <Input 
                 placeholder="Pesquisar evento..." 
                 className="pl-10 bg-gray-50 border border-gray-200 text-sm hover:border-2 hover:border-verde-dark focus-visible:border-2 focus-visible:border-verde-dark transition-all duration-200"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
               />
             </div>
             <Button 
               variant="outline" 
               className="px-6 text-sm hover:bg-verde-dark hover:text-white transition-colors"
+              onClick={handleSearch}
             >
               Pesquisar
             </Button>
           </div>
+
+          {searchResults.length > 0 && (
+            <div className="space-y-2">
+              <h4 className={`font-medium text-gray-900 ${getResponsiveClasses.textSize.sm}`}>
+                Resultados da Pesquisa ({searchResults.length})
+              </h4>
+              <ScrollArea className="h-64 w-full border rounded-md p-3">
+                <div className="space-y-2">
+                  {searchResults.map((result) => (
+                    <Popover key={result.id}>
+                      <PopoverTrigger asChild>
+                        <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer">
+                          <div className="flex items-center gap-3">
+                            <div className="w-8 h-8 bg-white rounded-lg flex items-center justify-center shadow-sm">
+                              <Info className="h-4 w-4 text-gray-600" />
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <p className={`font-medium text-gray-900 truncate ${getResponsiveClasses.textSize.sm}`}>
+                                {result.type}
+                              </p>
+                              <p className={`text-gray-600 truncate ${getResponsiveClasses.textSize.xs}`}>
+                                {format(result.date, "dd/MM/yyyy", { locale: ptBR })}
+                              </p>
+                            </div>
+                          </div>
+                          <div className="flex items-center gap-1">
+                            <Clock className="h-3 w-3 text-gray-400" />
+                            <span className={`text-gray-500 ${getResponsiveClasses.textSize.xs}`}>
+                              {result.time}
+                            </span>
+                          </div>
+                        </div>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-80 p-4">
+                        <div className="space-y-2">
+                          <h4 className="font-semibold text-verde-dark text-lg">
+                            {result.type}
+                          </h4>
+                          <p className="text-gray-600 text-sm leading-relaxed">
+                            {result.details}
+                          </p>
+                        </div>
+                      </PopoverContent>
+                    </Popover>
+                  ))}
+                </div>
+              </ScrollArea>
+            </div>
+          )}
         </div>
 
         <h3 className={`font-semibold text-gray-900 ${getResponsiveClasses.textSize.lg}`}>
