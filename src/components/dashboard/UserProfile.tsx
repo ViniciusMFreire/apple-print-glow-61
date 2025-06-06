@@ -15,7 +15,7 @@ export const UserProfile = () => {
             ADRIANO FAGUNDES AVANCINI
           </h2>
           <p className={`text-gray-600 ${getResponsiveClasses.textSize.sm}`}>
-            953.267.400-44
+            CPF: 953.267.400-44 Conta: 123456
           </p>
           <div className={`flex flex-wrap gap-2 md:gap-4 mt-2 ${getResponsiveClasses.textSize.xs}`}>
             <span className="text-black">
