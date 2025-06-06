@@ -182,12 +182,9 @@ export const ActivityList = () => {
             </div>
           </div>
 
-          <Alert>
-            <Info className="h-4 w-4" />
-            <AlertDescription>
-              Limite máximo entre datas informadas não pode ser superior a 30 dias.
-            </AlertDescription>
-          </Alert>
+          <p className="text-sm text-gray-600">
+            Limite máximo entre datas informadas não pode ser superior a 30 dias.
+          </p>
 
           <div className="flex gap-2">
             <div className="relative flex-1">
