@@ -1,3 +1,4 @@
+
 import { Search, CreditCard, ShoppingBag, Headphones, Bell, Calendar, Clock, DollarSign, Users, Smartphone, Info, MessageCircle, Grid3X3 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
@@ -40,21 +41,6 @@ export const ActivityList = () => {
   return (
     <div className={`bg-white rounded-lg shadow-sm ${getResponsiveClasses.padding.md}`}>
       <div className="flex flex-col space-y-4">
-        <div className="flex items-center justify-between">
-          <h3 className={`font-semibold text-gray-900 ${getResponsiveClasses.textSize.lg}`}>
-            Atividades Recentes
-          </h3>
-          <Bell className={`text-gray-400 ${getResponsiveClasses.iconSize.md}`} />
-        </div>
-        
-        <div className="relative">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-          <Input 
-            placeholder="Pesquisar evento..." 
-            className="pl-10 bg-gray-50 border border-gray-200 text-sm hover:border-2 hover:border-verde-dark focus-visible:border-2 focus-visible:border-verde-dark transition-all duration-200"
-          />
-        </div>
-
         <div className="grid grid-cols-3 gap-2 md:gap-4">
           <div className="flex flex-col items-center p-3 bg-orange-50 rounded-lg hover:bg-orange-100 transition-colors cursor-pointer">
             <Users className={`text-orange-600 mb-2 ${getResponsiveClasses.iconSize.md}`} />
@@ -108,6 +94,21 @@ export const ActivityList = () => {
               Atendimento Canais Críticos
             </span>
           </div>
+        </div>
+
+        <div className="flex items-center justify-between">
+          <h3 className={`font-semibold text-gray-900 ${getResponsiveClasses.textSize.lg}`}>
+            Atividades Recentes
+          </h3>
+          <Bell className={`text-gray-400 ${getResponsiveClasses.iconSize.md}`} />
+        </div>
+        
+        <div className="relative">
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+          <Input 
+            placeholder="Pesquisar evento..." 
+            className="pl-10 bg-gray-50 border border-gray-200 text-sm hover:border-2 hover:border-verde-dark focus-visible:border-2 focus-visible:border-verde-dark transition-all duration-200"
+          />
         </div>
 
         <div className="space-y-3">
