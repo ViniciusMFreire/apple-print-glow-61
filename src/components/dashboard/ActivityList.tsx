@@ -1,4 +1,5 @@
 
+
 import { Search, CreditCard, ShoppingBag, Headphones, Bell, Calendar, Clock, DollarSign, Users, Smartphone, Info, MessageCircle, Grid3X3, CalendarIcon } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
@@ -112,7 +113,7 @@ export const ActivityList = () => {
 
         <div className="flex items-center justify-between">
           <h3 className={`font-semibold text-gray-900 ${getResponsiveClasses.textSize.lg}`}>
-            Atividades Recentes
+            Eventos
           </h3>
           <Bell className={`text-gray-400 ${getResponsiveClasses.iconSize.md}`} />
         </div>
@@ -239,3 +240,4 @@ export const ActivityList = () => {
     </div>
   );
 };
+
