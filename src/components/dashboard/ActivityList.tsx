@@ -101,14 +101,7 @@ export const ActivityList = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-2 md:gap-4">
-          <div className="flex flex-col items-center p-3 bg-cyan-50 rounded-lg hover:bg-cyan-100 transition-colors cursor-pointer">
-            <Info className={`text-cyan-600 mb-2 ${getResponsiveClasses.iconSize.md}`} />
-            <span className={`text-cyan-700 font-medium text-center ${getResponsiveClasses.textSize.xs}`}>
-              Canais de Atendimento
-            </span>
-          </div>
-          
+        <div className="grid grid-cols-1 gap-2 md:gap-4">
           <div className="flex flex-col items-center p-3 bg-teal-50 rounded-lg hover:bg-teal-100 transition-colors cursor-pointer">
             <Grid3X3 className={`text-teal-600 mb-2 ${getResponsiveClasses.iconSize.md}`} />
             <span className={`text-teal-700 font-medium text-center ${getResponsiveClasses.textSize.xs}`}>
