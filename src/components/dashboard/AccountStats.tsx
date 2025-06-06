@@ -49,8 +49,24 @@ export const AccountStats = () => {
       icon: CreditCard,
       details: "Cliente possui 2 cartões ativos no momento.",
       cardDetails: [
-        "5091.51**.****.6917 TITULAR - EMBOSSING - CHIP - LOJAS QUERO-QUERO S/A 263 - MULTIPLO - ELO",
-        "6278.94**.****.4696 AMIGO(A) - BLOQUEADO - VIRTUAL - LOJAS QUERO-QUERO S/A 263 - CHIP - VERDECARD"
+        {
+          number: "5091.51**.****.6917",
+          type: "TITULAR",
+          status: "EMBOSSING",
+          features: "CHIP",
+          company: "LOJAS QUERO-QUERO S/A 263",
+          category: "MULTIPLO",
+          brand: "ELO"
+        },
+        {
+          number: "6278.94**.****.4696",
+          type: "AMIGO(A)",
+          status: "BLOQUEADO",
+          features: "VIRTUAL",
+          company: "LOJAS QUERO-QUERO S/A 263",
+          category: "CHIP",
+          brand: "VERDECARD"
+        }
       ]
     }
   ];
@@ -76,7 +92,7 @@ export const AccountStats = () => {
                       <h3 className={`font-medium text-gray-900 ${getResponsiveClasses.textSize.sm}`}>
                         {stat.title}
                       </h3>
-                      <p className={`font-bold text-gray-900 ${stat.title === "Cartão Ativo" ? "text-xs md:text-sm" : getResponsiveClasses.textSize.sm}`}>
+                      <p className={`font-bold text-gray-900 ${stat.title === "Cartão Ativo" ? "text-xs md:text-sm" : stat.title === "Atraso" ? "text-xs md:text-sm" : getResponsiveClasses.textSize.sm}`}>
                         {stat.value}
                       </p>
                     </div>
@@ -105,10 +121,32 @@ export const AccountStats = () => {
                   ) : stat.title === "Cartão Ativo" && stat.cardDetails ? (
                     <div className="space-y-3 mt-4">
                       {stat.cardDetails.map((card, cardIndex) => (
-                        <div key={cardIndex} className="p-3 bg-gray-50 rounded-lg">
-                          <p className="text-sm font-mono text-gray-800 leading-relaxed">
-                            {card}
-                          </p>
+                        <div key={cardIndex} className="p-3 bg-green-50 rounded-lg border-l-4 border-green-400">
+                          <div className="space-y-2">
+                            <p className="text-sm font-semibold text-green-800">
+                              {card.number}
+                            </p>
+                            <p className="text-sm text-gray-700">
+                              <span className="font-medium">Tipo:</span> {card.type}
+                            </p>
+                            <div className="grid grid-cols-1 gap-2 text-sm">
+                              <p className="text-gray-700">
+                                <span className="font-medium">Status:</span> {card.status}
+                              </p>
+                              <p className="text-gray-700">
+                                <span className="font-medium">Características:</span> {card.features}
+                              </p>
+                              <p className="text-gray-700">
+                                <span className="font-medium">Empresa:</span> {card.company}
+                              </p>
+                              <p className="text-gray-700">
+                                <span className="font-medium">Categoria:</span> {card.category}
+                              </p>
+                              <p className="text-green-700 font-semibold">
+                                <span className="font-medium">Bandeira:</span> {card.brand}
+                              </p>
+                            </div>
+                          </div>
                         </div>
                       ))}
                     </div>
