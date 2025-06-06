@@ -11,12 +11,17 @@ export const AccountStats = () => {
   const stats = [
     { 
       title: "Bloqueio", 
-      value: "0", 
+      value: "3", 
       color: "red",
       bgColor: "bg-red-100",
       iconColor: "text-red-500",
       icon: Ban,
-      details: "Nenhum bloqueio ativo na conta do cliente."
+      details: "Cliente possui 3 tipos de bloqueios ativos.",
+      blockDetails: [
+        "BB - Bloqueio de Inatividade",
+        "BL - Bloqueio por Erro de Logradouro", 
+        "NE - B.Cartão Não Entregue"
+      ]
     },
     { 
       title: "Atraso", 
@@ -87,7 +92,17 @@ export const AccountStats = () => {
                   <h4 className="font-semibold text-gray-900">{stat.title}</h4>
                   <p className="text-sm text-gray-600">{stat.details}</p>
                   
-                  {stat.title === "Cartão Ativo" && stat.cardDetails ? (
+                  {stat.title === "Bloqueio" && stat.blockDetails ? (
+                    <div className="space-y-3 mt-4">
+                      {stat.blockDetails.map((block, blockIndex) => (
+                        <div key={blockIndex} className="p-3 bg-red-50 rounded-lg border-l-4 border-red-400">
+                          <p className="text-sm font-medium text-red-800">
+                            {block}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+                  ) : stat.title === "Cartão Ativo" && stat.cardDetails ? (
                     <div className="space-y-3 mt-4">
                       {stat.cardDetails.map((card, cardIndex) => (
                         <div key={cardIndex} className="p-3 bg-gray-50 rounded-lg">
