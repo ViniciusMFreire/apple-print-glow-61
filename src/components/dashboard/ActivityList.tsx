@@ -1,5 +1,3 @@
-
-
 import { Search, CreditCard, ShoppingBag, Headphones, Bell, Calendar, Clock, DollarSign, Users, Smartphone, Info, MessageCircle, Grid3X3, CalendarIcon } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
@@ -56,6 +54,10 @@ export const ActivityList = () => {
   return (
     <div className={`bg-white rounded-lg shadow-sm ${getResponsiveClasses.padding.md}`}>
       <div className="flex flex-col space-y-4">
+        <h3 className={`font-semibold text-gray-900 ${getResponsiveClasses.textSize.lg}`}>
+          Painéis Quero Quero
+        </h3>
+
         <div className="grid grid-cols-3 gap-2 md:gap-4">
           <div className="flex flex-col items-center p-3 bg-orange-50 rounded-lg hover:bg-orange-100 transition-colors cursor-pointer">
             <Users className={`text-orange-600 mb-2 ${getResponsiveClasses.iconSize.md}`} />
@@ -240,4 +242,3 @@ export const ActivityList = () => {
     </div>
   );
 };
-
