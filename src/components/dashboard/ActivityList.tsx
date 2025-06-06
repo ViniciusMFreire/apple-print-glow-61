@@ -130,7 +130,7 @@ export const ActivityList = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             <div className="space-y-2">
               <label className={`text-gray-700 font-medium ${getResponsiveClasses.textSize.sm}`}>
-                Data Início
+                Data Início <span className="text-red-500">*</span>
               </label>
               <Popover>
                 <PopoverTrigger asChild>
@@ -138,7 +138,7 @@ export const ActivityList = () => {
                     variant="outline"
                     className={cn(
                       "w-full justify-start text-left font-normal",
-                      !startDate && "text-muted-foreground"
+                      !startDate && "text-muted-foreground border-red-200"
                     )}
                   >
                     <CalendarIcon className="mr-2 h-4 w-4" />
@@ -159,7 +159,7 @@ export const ActivityList = () => {
 
             <div className="space-y-2">
               <label className={`text-gray-700 font-medium ${getResponsiveClasses.textSize.sm}`}>
-                Data Fim
+                Data Fim <span className="text-red-500">*</span>
               </label>
               <Popover>
                 <PopoverTrigger asChild>
@@ -167,7 +167,7 @@ export const ActivityList = () => {
                     variant="outline"
                     className={cn(
                       "w-full justify-start text-left font-normal",
-                      !endDate && "text-muted-foreground"
+                      !endDate && "text-muted-foreground border-red-200"
                     )}
                   >
                     <CalendarIcon className="mr-2 h-4 w-4" />
