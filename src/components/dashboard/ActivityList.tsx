@@ -1,3 +1,4 @@
+
 import { Search, CreditCard, ShoppingBag, Headphones, Bell, Calendar, Clock, DollarSign, Users, Smartphone, Info, MessageCircle, Grid3X3, CalendarIcon } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
@@ -116,22 +117,6 @@ export const ActivityList = () => {
           <Bell className={`text-gray-400 ${getResponsiveClasses.iconSize.md}`} />
         </div>
 
-        <div className="flex gap-2">
-          <div className="relative flex-1">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-            <Input 
-              placeholder="Pesquisar evento..." 
-              className="pl-10 bg-gray-50 border border-gray-200 text-sm hover:border-2 hover:border-verde-dark focus-visible:border-2 focus-visible:border-verde-dark transition-all duration-200"
-            />
-          </div>
-          <Button 
-            variant="outline" 
-            className="px-6 text-sm hover:bg-verde-dark hover:text-white transition-colors"
-          >
-            Pesquisar
-          </Button>
-        </div>
-
         <div className="space-y-3">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             <div className="space-y-2">
@@ -191,6 +176,22 @@ export const ActivityList = () => {
                 </PopoverContent>
               </Popover>
             </div>
+          </div>
+
+          <div className="flex gap-2">
+            <div className="relative flex-1">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+              <Input 
+                placeholder="Pesquisar evento..." 
+                className="pl-10 bg-gray-50 border border-gray-200 text-sm hover:border-2 hover:border-verde-dark focus-visible:border-2 focus-visible:border-verde-dark transition-all duration-200"
+              />
+            </div>
+            <Button 
+              variant="outline" 
+              className="px-6 text-sm hover:bg-verde-dark hover:text-white transition-colors"
+            >
+              Pesquisar
+            </Button>
           </div>
         </div>
 
