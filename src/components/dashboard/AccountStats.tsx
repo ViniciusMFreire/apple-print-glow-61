@@ -59,7 +59,7 @@ export const AccountStats = () => {
                       <h3 className={`font-medium text-gray-900 ${getResponsiveClasses.textSize.sm}`}>
                         {stat.title}
                       </h3>
-                      <p className={`font-bold text-gray-900 ${getResponsiveClasses.textSize.xl}`}>
+                      <p className={`font-bold text-gray-900 ${stat.title === "Cartão Ativo" ? "text-xs md:text-sm" : getResponsiveClasses.textSize.xl}`}>
                         {stat.value}
                       </p>
                     </div>
