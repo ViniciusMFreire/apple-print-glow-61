@@ -1,5 +1,5 @@
 
-import { Search, CreditCard, ShoppingBag, Headphones, Bell, Calendar, Clock, DollarSign } from "lucide-react";
+import { Search, CreditCard, ShoppingBag, Headphones, Bell, Calendar, Clock, DollarSign, Users, Smartphone, Info, MessageCircle, Grid3X3 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { getResponsiveClasses } from "@/utils/responsiveUtils";
@@ -75,6 +75,45 @@ export const ActivityList = () => {
             <Headphones className={`text-purple-600 mb-2 ${getResponsiveClasses.iconSize.md}`} />
             <span className={`text-purple-700 font-medium text-center ${getResponsiveClasses.textSize.xs}`}>
               Atendimento
+            </span>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-3 gap-2 md:gap-4">
+          <div className="flex flex-col items-center p-3 bg-orange-50 rounded-lg hover:bg-orange-100 transition-colors cursor-pointer">
+            <Users className={`text-orange-600 mb-2 ${getResponsiveClasses.iconSize.md}`} />
+            <span className={`text-orange-700 font-medium text-center ${getResponsiveClasses.textSize.xs}`}>
+              Cadastro
+            </span>
+          </div>
+          
+          <div className="flex flex-col items-center p-3 bg-indigo-50 rounded-lg hover:bg-indigo-100 transition-colors cursor-pointer">
+            <Smartphone className={`text-indigo-600 mb-2 ${getResponsiveClasses.iconSize.md}`} />
+            <span className={`text-indigo-700 font-medium text-center ${getResponsiveClasses.textSize.xs}`}>
+              Aplicativo
+            </span>
+          </div>
+          
+          <div className="flex flex-col items-center p-3 bg-emerald-50 rounded-lg hover:bg-emerald-100 transition-colors cursor-pointer">
+            <MessageCircle className={`text-emerald-600 mb-2 ${getResponsiveClasses.iconSize.md}`} />
+            <span className={`text-emerald-700 font-medium text-center ${getResponsiveClasses.textSize.xs}`}>
+              Atendimento
+            </span>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-2 gap-2 md:gap-4">
+          <div className="flex flex-col items-center p-3 bg-cyan-50 rounded-lg hover:bg-cyan-100 transition-colors cursor-pointer">
+            <Info className={`text-cyan-600 mb-2 ${getResponsiveClasses.iconSize.md}`} />
+            <span className={`text-cyan-700 font-medium text-center ${getResponsiveClasses.textSize.xs}`}>
+              Atendimento Canais e Ofcios
+            </span>
+          </div>
+          
+          <div className="flex flex-col items-center p-3 bg-teal-50 rounded-lg hover:bg-teal-100 transition-colors cursor-pointer">
+            <Grid3X3 className={`text-teal-600 mb-2 ${getResponsiveClasses.iconSize.md}`} />
+            <span className={`text-teal-700 font-medium text-center ${getResponsiveClasses.textSize.xs}`}>
+              Conta Digital
             </span>
           </div>
         </div>
