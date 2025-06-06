@@ -1,4 +1,3 @@
-
 import { Search, CreditCard, ShoppingBag, Headphones, Bell, Calendar, Clock, DollarSign, Users, Smartphone, Info, MessageCircle, Grid3X3, CalendarIcon } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
@@ -115,14 +114,6 @@ export const ActivityList = () => {
             Atividades Recentes
           </h3>
           <Bell className={`text-gray-400 ${getResponsiveClasses.iconSize.md}`} />
-        </div>
-
-        <div className="relative">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-          <Input 
-            placeholder="Pesquisar evento..." 
-            className="pl-10 bg-gray-50 border border-gray-200 text-sm hover:border-2 hover:border-verde-dark focus-visible:border-2 focus-visible:border-verde-dark transition-all duration-200"
-          />
         </div>
 
         {/* Date Filter Section */}
