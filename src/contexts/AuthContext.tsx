@@ -1,7 +1,7 @@
 
 import React, { createContext, useContext, useState, ReactNode } from 'react';
 import { User, AuthCredentials } from '@/domain/entities/User';
-import { container } from '@/infrastructure/di/Container';
+import Container from '@/infrastructure/di/Container';
 
 interface AuthContextType {
   user: User | null;
@@ -12,10 +12,10 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-export const useAuthContext = () => {
+export const useAuth = () => {
   const context = useContext(AuthContext);
   if (!context) {
-    throw new Error('useAuthContext must be used within an AuthProvider');
+    throw new Error('useAuth must be used within an AuthProvider');
   }
   return context;
 };
@@ -26,11 +26,13 @@ interface AuthProviderProps {
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [user, setUser] = useState<User | null>(null);
-  const authUseCase = container.getAuthUseCase();
+  const authUseCase = Container.getInstance().authUseCase;
 
   const login = async (credentials: AuthCredentials) => {
-    const loggedInUser = await authUseCase.login(credentials);
-    setUser(loggedInUser);
+    const result = await authUseCase.login(credentials);
+    if (result.success && result.user) {
+      setUser(result.user);
+    }
   };
 
   const logout = () => {

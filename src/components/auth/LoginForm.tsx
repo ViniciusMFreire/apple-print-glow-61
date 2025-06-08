@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -14,22 +15,18 @@ export const LoginForm = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { login } = useAuth();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
 
-    // Simular delay de autenticação
-    setTimeout(() => {
-      const success = login(email, password);
-      
-      if (success) {
-        toast.success('Login realizado com sucesso!');
-      } else {
-        toast.error('Credenciais inválidas. Tente novamente.');
-      }
-      
+    try {
+      await login({ email, password });
+      toast.success('Login realizado com sucesso!');
+    } catch (error) {
+      toast.error('Credenciais inválidas. Tente novamente.');
+    } finally {
       setIsLoading(false);
-    }, 1000);
+    }
   };
 
   const handleForgotPassword = () => {
