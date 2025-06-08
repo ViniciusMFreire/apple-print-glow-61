@@ -48,6 +48,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setIsAuthenticated(false);
     setUser(null);
     localStorage.removeItem('auth');
+    // Forçar reload da página para garantir que o estado seja limpo
+    window.location.href = '/';
   };
 
   const value = {
