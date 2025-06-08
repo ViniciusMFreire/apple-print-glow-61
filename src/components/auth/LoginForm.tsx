@@ -1,4 +1,5 @@
 
+
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -38,22 +39,14 @@ export const LoginForm = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-verde-dark via-green-600 to-green-500 flex items-center justify-center px-4 relative overflow-hidden">
-      {/* Background decorative elements */}
-      <div className="absolute inset-0 opacity-10">
-        <div className="absolute top-20 left-20 w-32 h-32 bg-white rounded-full blur-xl"></div>
-        <div className="absolute bottom-20 right-20 w-48 h-48 bg-white rounded-full blur-xl"></div>
-        <div className="absolute top-1/2 left-1/4 w-24 h-24 bg-amarela-normal rounded-full blur-lg"></div>
-      </div>
-
-      {/* Logo como marca d'água no fundo */}
-      <div className="absolute inset-0 flex items-center justify-center opacity-5">
-        <img 
-          src="/lovable-uploads/fe0110ab-78d7-4dc4-a991-67d700dc6c0c.png" 
-          alt="Watermark" 
-          className="w-96 h-auto object-contain"
-        />
-      </div>
+    <div 
+      className="min-h-screen flex items-center justify-center px-4 relative overflow-hidden bg-cover bg-center bg-no-repeat"
+      style={{
+        backgroundImage: `url('/lovable-uploads/03754d9e-44f9-4110-bb6d-0939e1f70005.png')`
+      }}
+    >
+      {/* Overlay para melhorar a legibilidade */}
+      <div className="absolute inset-0 bg-black/10"></div>
 
       {/* Login Card */}
       <div className="w-full max-w-md relative z-10">
@@ -147,3 +140,4 @@ export const LoginForm = () => {
     </div>
   );
 };
+
