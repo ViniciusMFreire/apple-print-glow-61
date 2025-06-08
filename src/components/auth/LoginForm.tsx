@@ -1,5 +1,3 @@
-
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -52,18 +50,8 @@ export const LoginForm = () => {
       <div className="w-full max-w-md relative z-10">
         <Card className="bg-white shadow-2xl border-0 rounded-2xl overflow-hidden">
           <CardHeader className="text-center py-8 px-8">
-            <div className="mb-6">
-              {/* Logos - VerdeCard e Quero Quero */}
-              <div className="flex items-center justify-center mb-4">
-                <img 
-                  src="/lovable-uploads/fe0110ab-78d7-4dc4-a991-67d700dc6c0c.png" 
-                  alt="Quero Quero e VerdeCard" 
-                  className="h-32 w-auto object-contain"
-                />
-              </div>
-            </div>
-            <CardTitle className="text-2xl font-bold text-gray-800 mb-2">
-              Por favor, informe seus dados.
+            <CardTitle className="text-3xl font-bold text-gray-800 mb-4">
+              Feed do cliente
             </CardTitle>
             <p className="text-gray-500 text-sm">v2.0.2</p>
           </CardHeader>
@@ -140,4 +128,3 @@ export const LoginForm = () => {
     </div>
   );
 };
-
