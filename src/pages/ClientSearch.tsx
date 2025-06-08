@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -8,120 +9,8 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { useAuth } from '@/contexts/AuthContext';
 import { Search, User, Phone, FileText, CreditCard } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-
-interface SearchSuggestion {
-  id: string;
-  value: string;
-  type: 'conta' | 'cpf' | 'cnpj' | 'telefone' | 'contrato' | 'pedido';
-  name?: string;
-  status?: string;
-  conta?: string;
-  telefone?: string;
-  dataNascimento?: string;
-}
-
-const mockSuggestions: SearchSuggestion[] = [
-  { 
-    id: '1', 
-    value: '02358458090', 
-    type: 'cpf', 
-    name: 'RAFAEL ACOSTA RODRIGUES', 
-    status: 'Ativo', 
-    conta: '77933224', 
-    telefone: '(51) 9 99364-7444',
-    dataNascimento: '21/11/1990'
-  },
-  { 
-    id: '2', 
-    value: '08635874960', 
-    type: 'cpf', 
-    name: 'VINICIUS MARTINS FREIRE', 
-    status: 'Ativo', 
-    conta: '13729431', 
-    telefone: '(48) 99622-8318',
-    dataNascimento: '08/01/1995'
-  },
-  { 
-    id: '3', 
-    value: '77933224', 
-    type: 'conta', 
-    name: 'RAFAEL ACOSTA RODRIGUES', 
-    status: 'Ativo', 
-    conta: '77933224', 
-    telefone: '(51) 9 99364-7444',
-    dataNascimento: '21/11/1990'
-  },
-  { 
-    id: '4', 
-    value: '13729431', 
-    type: 'conta', 
-    name: 'VINICIUS MARTINS FREIRE', 
-    status: 'Ativo', 
-    conta: '13729431', 
-    telefone: '(48) 99622-8318',
-    dataNascimento: '08/01/1995'
-  },
-  { 
-    id: '5', 
-    value: '51999364444', 
-    type: 'telefone', 
-    name: 'RAFAEL ACOSTA RODRIGUES', 
-    status: 'Ativo', 
-    conta: '77933224', 
-    telefone: '(51) 9 99364-7444',
-    dataNascimento: '21/11/1990'
-  },
-  { 
-    id: '6', 
-    value: '48996228318', 
-    type: 'telefone', 
-    name: 'VINICIUS MARTINS FREIRE', 
-    status: 'Ativo', 
-    conta: '13729431', 
-    telefone: '(48) 99622-8318',
-    dataNascimento: '08/01/1995'
-  },
-  { 
-    id: '7', 
-    value: 'CT-2024-001', 
-    type: 'contrato', 
-    name: 'RAFAEL ACOSTA RODRIGUES - Contrato Cartão Verde', 
-    status: 'Vigente', 
-    conta: '77933224', 
-    telefone: '(51) 9 99364-7444',
-    dataNascimento: '21/11/1990'
-  },
-  { 
-    id: '8', 
-    value: 'CT-2024-002', 
-    type: 'contrato', 
-    name: 'VINICIUS MARTINS FREIRE - Contrato Cartão Gold', 
-    status: 'Vigente', 
-    conta: '13729431', 
-    telefone: '(48) 99622-8318',
-    dataNascimento: '08/01/1995'
-  },
-  { 
-    id: '9', 
-    value: 'PD-2024-456', 
-    type: 'pedido', 
-    name: 'RAFAEL ACOSTA RODRIGUES - Pedido Cartão Adicional', 
-    status: 'Processando', 
-    conta: '77933224', 
-    telefone: '(51) 9 99364-7444',
-    dataNascimento: '21/11/1990'
-  },
-  { 
-    id: '10', 
-    value: 'PD-2024-789', 
-    type: 'pedido', 
-    name: 'VINICIUS MARTINS FREIRE - Pedido Aumento Limite', 
-    status: 'Aprovado', 
-    conta: '13729431', 
-    telefone: '(48) 99622-8318',
-    dataNascimento: '08/01/1995'
-  },
-];
+import { useClient } from '@/presentation/hooks/useClient';
+import { ClientSearchCriteria } from '@/domain/entities/Client';
 
 const getTypeIcon = (type: string) => {
   switch (type) {
@@ -161,67 +50,64 @@ const getTypeColor = (type: string) => {
 
 export const ClientSearch = () => {
   const [searchTerm, setSearchTerm] = useState('');
-  const [suggestions, setSuggestions] = useState<SearchSuggestion[]>([]);
-  const [showSuggestions, setShowSuggestions] = useState(false);
-  const [selectedClient, setSelectedClient] = useState<SearchSuggestion | null>(null);
-  const [searchResults, setSearchResults] = useState<SearchSuggestion[]>([]);
   const [showResults, setShowResults] = useState(false);
   const { logout } = useAuth();
   const navigate = useNavigate();
+  const { clients, loading, error, searchClients } = useClient();
 
-  useEffect(() => {
-    if (searchTerm.length >= 2) {
-      const filtered = mockSuggestions.filter(
-        suggestion =>
-          suggestion.value.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          suggestion.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          suggestion.conta?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          suggestion.telefone?.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-      setSuggestions(filtered);
-      setShowSuggestions(true);
-    } else {
-      setSuggestions([]);
-      setShowSuggestions(false);
-    }
-  }, [searchTerm]);
+  const handleSearch = async () => {
+    if (!searchTerm.trim()) return;
 
-  const handleSuggestionClick = (suggestion: SearchSuggestion) => {
-    setSearchTerm(suggestion.value);
-    setSelectedClient(suggestion);
-    setShowSuggestions(false);
-  };
+    const searchType = detectSearchType(searchTerm);
+    const criteria: ClientSearchCriteria = {
+      value: searchTerm,
+      type: mapSearchTypeToEnum(searchType)
+    };
 
-  const handleSearch = () => {
-    if (selectedClient || searchTerm) {
-      console.log('Buscando cliente:', selectedClient || searchTerm);
-      
-      // Filtrar resultados baseados no termo de busca
-      const filtered = mockSuggestions.filter(
-        suggestion =>
-          suggestion.value.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          suggestion.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          suggestion.conta?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          suggestion.telefone?.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-      
-      setSearchResults(filtered);
+    try {
+      await searchClients(criteria);
       setShowResults(true);
+    } catch (err) {
+      console.error('Erro na busca:', err);
     }
   };
 
-  const handleSelectClient = (client: SearchSuggestion) => {
+  const handleSelectClient = (client: any) => {
     navigate('/dashboard', { state: { client } });
   };
 
   const detectSearchType = (value: string) => {
-    if (/^\d{11}$/.test(value)) return 'CPF';
-    if (/^\d{14}$/.test(value)) return 'CNPJ';
-    if (/^\d{10,11}$/.test(value) || /^\(\d{2}\)\s?\d{4,5}-?\d{4}$/.test(value)) return 'Telefone';
+    const cleanValue = value.replace(/\D/g, '');
+    if (cleanValue.length === 11) return 'CPF';
+    if (cleanValue.length === 14) return 'CNPJ';
+    if (cleanValue.length >= 10 && cleanValue.length <= 11) return 'Telefone';
     if (/^CT-/.test(value.toUpperCase())) return 'Contrato';
     if (/^PD-/.test(value.toUpperCase())) return 'Pedido';
-    if (/^\d{8}$/.test(value)) return 'Conta';
+    if (cleanValue.length === 8) return 'Conta';
     return 'Texto';
+  };
+
+  const mapSearchTypeToEnum = (type: string): 'cpf' | 'account' | 'phone' | 'contract' => {
+    switch (type.toLowerCase()) {
+      case 'cpf':
+      case 'cnpj':
+        return 'cpf';
+      case 'telefone':
+        return 'phone';
+      case 'contrato':
+      case 'pedido':
+        return 'contract';
+      case 'conta':
+        return 'account';
+      default:
+        return 'cpf';
+    }
+  };
+
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      handleSearch();
+    }
   };
 
   return (
@@ -254,8 +140,9 @@ export const ClientSearch = () => {
                     placeholder="Ex: 02358458090, 77933224, CT-2024-001, (51) 9 99364-7444..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    onFocus={() => searchTerm.length >= 2 && setShowSuggestions(true)}
+                    onKeyPress={handleKeyPress}
                     className="pl-10 h-14 text-lg border-2 border-gray-200 focus:border-verde-dark rounded-xl"
+                    disabled={loading}
                   />
                 </div>
 
@@ -267,50 +154,16 @@ export const ClientSearch = () => {
                     </Badge>
                   </div>
                 )}
-
-                {showSuggestions && suggestions.length > 0 && !showResults && (
-                  <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-gray-200 rounded-lg shadow-lg z-10 max-h-60 overflow-y-auto">
-                    {suggestions.map((suggestion) => (
-                      <div
-                        key={suggestion.id}
-                        onClick={() => handleSuggestionClick(suggestion)}
-                        className="p-3 hover:bg-gray-50 cursor-pointer border-b last:border-b-0 flex items-center justify-between"
-                      >
-                        <div className="flex items-center space-x-3">
-                          {getTypeIcon(suggestion.type)}
-                          <div>
-                            <div className="font-medium text-gray-900">
-                              {suggestion.name || suggestion.value}
-                            </div>
-                            <div className="text-sm text-gray-500">
-                              {suggestion.value}
-                            </div>
-                          </div>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          <Badge variant="outline" className={getTypeColor(suggestion.type)}>
-                            {suggestion.type.toUpperCase()}
-                          </Badge>
-                          {suggestion.status && (
-                            <Badge variant="outline" className="bg-green-100 text-green-800">
-                              {suggestion.status}
-                            </Badge>
-                          )}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                )}
               </div>
 
               <div className="flex space-x-3">
                 <Button 
                   onClick={handleSearch}
-                  disabled={!searchTerm}
+                  disabled={!searchTerm || loading}
                   className="flex-1 h-12 bg-verde-dark hover:bg-verde-dark/90 text-white font-semibold rounded-xl"
                 >
                   <Search className="h-5 w-5 mr-2" />
-                  Buscar Cliente
+                  {loading ? 'Buscando...' : 'Buscar Cliente'}
                 </Button>
                 
                 <Button 
@@ -322,38 +175,19 @@ export const ClientSearch = () => {
                 </Button>
               </div>
 
-              {selectedClient && !showResults && (
-                <Card className="border-verde-dark/20 bg-verde-dark/5">
+              {error && (
+                <Card className="border-red-200 bg-red-50">
                   <CardContent className="p-4">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <h3 className="font-semibold text-gray-900">
-                          {selectedClient.name || selectedClient.value}
-                        </h3>
-                        <p className="text-sm text-gray-600">
-                          {selectedClient.value}
-                        </p>
-                      </div>
-                      <div className="flex space-x-2">
-                        <Badge className={getTypeColor(selectedClient.type)}>
-                          {selectedClient.type.toUpperCase()}
-                        </Badge>
-                        {selectedClient.status && (
-                          <Badge className="bg-green-100 text-green-800">
-                            {selectedClient.status}
-                          </Badge>
-                        )}
-                      </div>
-                    </div>
+                    <p className="text-red-800">{error}</p>
                   </CardContent>
                 </Card>
               )}
 
-              {showResults && searchResults.length > 0 && (
+              {showResults && clients.length > 0 && (
                 <Card className="border-verde-dark/20">
                   <CardHeader className="pb-4">
                     <CardTitle className="text-xl text-gray-800">
-                      Resultados da Busca ({searchResults.length})
+                      Resultados da Busca ({clients.length})
                     </CardTitle>
                   </CardHeader>
                   <CardContent className="p-0">
@@ -362,7 +196,7 @@ export const ClientSearch = () => {
                         <TableHeader>
                           <TableRow>
                             <TableHead>Conta</TableHead>
-                            <TableHead>CPF/CNPJ</TableHead>
+                            <TableHead>CPF</TableHead>
                             <TableHead>Nome</TableHead>
                             <TableHead>Telefone</TableHead>
                             <TableHead>Status</TableHead>
@@ -370,30 +204,30 @@ export const ClientSearch = () => {
                           </TableRow>
                         </TableHeader>
                         <TableBody>
-                          {searchResults.map((result) => (
-                            <TableRow key={result.id} className="hover:bg-gray-50">
+                          {clients.map((client) => (
+                            <TableRow key={client.id} className="hover:bg-gray-50">
                               <TableCell className="font-medium">
-                                {result.conta || result.value}
+                                {client.account}
                               </TableCell>
                               <TableCell>
                                 <div className="flex items-center space-x-2">
-                                  {getTypeIcon(result.type)}
-                                  <span>{result.value}</span>
+                                  <User className="h-4 w-4" />
+                                  <span>{client.cpf}</span>
                                 </div>
                               </TableCell>
-                              <TableCell>{result.name}</TableCell>
-                              <TableCell>{result.telefone}</TableCell>
+                              <TableCell>{client.name}</TableCell>
+                              <TableCell>{client.phone}</TableCell>
                               <TableCell>
                                 <Badge 
                                   variant="outline" 
-                                  className={result.status === 'Ativo' || result.status === 'Vigente' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}
+                                  className={client.status === 'Ativo' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}
                                 >
-                                  {result.status}
+                                  {client.status}
                                 </Badge>
                               </TableCell>
                               <TableCell>
                                 <Button
-                                  onClick={() => handleSelectClient(result)}
+                                  onClick={() => handleSelectClient(client)}
                                   size="sm"
                                   className="bg-verde-dark hover:bg-verde-dark/90 text-white"
                                 >
@@ -409,7 +243,7 @@ export const ClientSearch = () => {
                 </Card>
               )}
 
-              {showResults && searchResults.length === 0 && (
+              {showResults && clients.length === 0 && !loading && (
                 <Card className="border-gray-200">
                   <CardContent className="p-8 text-center">
                     <div className="text-gray-500">
