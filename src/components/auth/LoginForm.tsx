@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -52,14 +51,12 @@ export const LoginForm = () => {
           <CardHeader className="text-center py-8 px-8">
             <div className="mb-6">
               {/* Logos - VerdeCard e Quero Quero */}
-              <div className="flex items-center justify-center gap-4 mb-4">
-                <div className="inline-flex items-center justify-center w-16 h-16 bg-verde-dark rounded-xl">
-                  <span className="text-white font-bold text-xl">VC</span>
-                </div>
-                <div className="text-2xl font-bold text-gray-400">+</div>
-                <div className="inline-flex items-center justify-center w-16 h-16 bg-red-600 rounded-xl">
-                  <span className="text-white font-bold text-xl">QQ</span>
-                </div>
+              <div className="flex items-center justify-center mb-4">
+                <img 
+                  src="/lovable-uploads/fe0110ab-78d7-4dc4-a991-67d700dc6c0c.png" 
+                  alt="Quero Quero e VerdeCard" 
+                  className="h-20 w-auto object-contain"
+                />
               </div>
             </div>
             <CardTitle className="text-2xl font-bold text-gray-800 mb-2">
