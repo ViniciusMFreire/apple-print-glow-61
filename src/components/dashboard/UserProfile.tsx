@@ -18,15 +18,20 @@ export const UserProfile = ({ clientData }: UserProfileProps) => {
           {/* Header com avatar e informações principais */}
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 w-full">
             <div className="w-16 h-16 bg-yellow-400 rounded-full flex items-center justify-center text-white font-bold text-2xl flex-shrink-0">
-              {clientData?.name ? clientData.name.charAt(0) : 'A'}
+              {clientData?.name ? clientData.name.charAt(0) : 'V'}
             </div>
             <div className="flex-1 min-w-0 w-full">
               <ResponsiveText size="lg" weight="semibold" className="truncate mb-1">
-                {clientData?.name || 'ADRIANO FAGUNDES AVANCINI'}
+                {clientData?.name || 'VINICIUS MARTINS FREIRE'}
               </ResponsiveText>
-              <ResponsiveText size="sm" color="muted" className="break-all sm:break-normal">
-                CPF: {clientData?.cpf || '953.267.400-44'} | Conta: {clientData?.account || '123456'}
-              </ResponsiveText>
+              <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-4">
+                <ResponsiveText size="sm" color="muted">
+                  CPF: {clientData?.cpf || '086.358.74960'}
+                </ResponsiveText>
+                <ResponsiveText size="sm" color="muted">
+                  Conta: {clientData?.account || '13729431'}
+                </ResponsiveText>
+              </div>
             </div>
           </div>
           
@@ -35,13 +40,13 @@ export const UserProfile = ({ clientData }: UserProfileProps) => {
             <div className="flex flex-col space-y-1 min-w-0">
               <ResponsiveText size="xs" color="muted" className="truncate">Aniversário</ResponsiveText>
               <ResponsiveText size="xs" weight="bold" color="success" className="truncate">
-                {clientData?.birthDate || 'Hoje'}
+                {clientData?.birthDate || '08/01/1995'}
               </ResponsiveText>
             </div>
             <div className="flex flex-col space-y-1 min-w-0">
               <ResponsiveText size="xs" color="muted" className="truncate">Tipo Cliente</ResponsiveText>
               <ResponsiveText size="xs" weight="bold" color="warning" className="truncate">
-                {clientData?.clientType || 'Colaborador'}
+                {clientData?.clientType || 'Cliente'}
               </ResponsiveText>
             </div>
             <div className="flex flex-col space-y-1 min-w-0">
