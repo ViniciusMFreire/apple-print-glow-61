@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { getResponsiveClasses, getGridClasses } from "@/utils/responsiveUtils";
+import { getResponsiveClasses } from "@/utils/responsiveUtils";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Ban, Clock, CreditCard } from "lucide-react";
@@ -77,7 +77,7 @@ export const AccountStats = () => {
 
   return (
     <TooltipProvider>
-      <div className={getGridClasses.cards}>
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         {stats.map((stat, index) => {
           const IconComponent = stat.icon;
           return (
@@ -85,14 +85,14 @@ export const AccountStats = () => {
               <Tooltip>
                 <TooltipTrigger asChild>
                   <PopoverTrigger asChild>
-                    <div className={`bg-white rounded-lg shadow-sm text-center cursor-pointer hover:shadow-md transition-shadow ${getResponsiveClasses.padding.sm}`}>
-                      <div className={`w-8 h-8 ${stat.bgColor} rounded-full flex items-center justify-center mx-auto mb-2`}>
-                        <IconComponent className={`w-5 h-5 ${stat.iconColor}`} />
+                    <div className={`bg-white rounded-lg shadow-sm text-center cursor-pointer hover:shadow-md transition-shadow ${getResponsiveClasses.padding.sm} h-full`}>
+                      <div className={`w-12 h-12 ${stat.bgColor} rounded-full flex items-center justify-center mx-auto mb-3`}>
+                        <IconComponent className={`w-6 h-6 ${stat.iconColor}`} />
                       </div>
-                      <h3 className={`font-medium text-gray-900 ${getResponsiveClasses.textSize.sm}`}>
+                      <h3 className={`font-medium text-gray-900 mb-2 ${getResponsiveClasses.textSize.sm}`}>
                         {stat.title}
                       </h3>
-                      <p className={`font-bold text-gray-900 ${stat.title === "Cartão Ativo" ? "text-xs md:text-sm" : stat.title === "Atraso" ? "text-xs md:text-sm" : getResponsiveClasses.textSize.sm}`}>
+                      <p className={`font-bold text-gray-900 ${getResponsiveClasses.textSize.sm} break-words`}>
                         {stat.value}
                       </p>
                     </div>

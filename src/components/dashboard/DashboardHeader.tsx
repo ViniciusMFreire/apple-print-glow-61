@@ -5,10 +5,10 @@ import { getResponsiveClasses } from "@/utils/responsiveUtils";
 
 export const DashboardHeader = () => {
   return (
-    <header className={`flex flex-col sm:flex-row items-start sm:items-center justify-between bg-white rounded-lg shadow-sm gap-3 sm:gap-4 ${getResponsiveClasses.padding.sm}`}>
-      <div className="flex items-center gap-3 md:gap-4 w-full sm:w-auto">
-        <Menu className={`text-gray-600 ${getResponsiveClasses.iconSize.md}`} />
-        <div className="relative flex-1 sm:flex-none">
+    <header className={`flex flex-col sm:flex-row items-start sm:items-center justify-between bg-white rounded-lg shadow-sm gap-4 ${getResponsiveClasses.padding.sm}`}>
+      <div className="flex items-center gap-3 w-full sm:w-auto">
+        <Menu className={`text-gray-600 flex-shrink-0 ${getResponsiveClasses.iconSize.md}`} />
+        <div className="relative flex-1 sm:flex-none w-full sm:w-auto">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
           <Input 
             placeholder="Pesquise por conta, CPF, CNPJ, telefone, contrato ou pedido..." 
@@ -17,7 +17,7 @@ export const DashboardHeader = () => {
         </div>
       </div>
       
-      <div className={`font-semibold text-gray-900 self-end sm:self-auto ${getResponsiveClasses.textSize.base}`}>
+      <div className={`font-semibold text-gray-900 ${getResponsiveClasses.textSize.base} flex-shrink-0`}>
         GUILHERME
       </div>
     </header>

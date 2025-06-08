@@ -11,29 +11,43 @@ import { LogoutButton } from "@/components/auth/LogoutButton";
 const Index = () => {
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="container mx-auto px-4 py-6">
+      <div className="container mx-auto px-4 py-6 max-w-7xl">
         {/* Header com botão de logout */}
-        <div className="flex justify-between items-center mb-6">
-          <h1 className="text-3xl font-bold text-verde-dark">Dashboard</h1>
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+          <h1 className="text-2xl md:text-3xl font-bold text-verde-dark">Dashboard</h1>
           <LogoutButton />
         </div>
 
-        <DashboardHeader />
+        {/* Dashboard Header com busca */}
+        <div className="mb-6">
+          <DashboardHeader />
+        </div>
         
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
-          <div className="lg:col-span-2 space-y-6">
+        {/* Layout principal em grid responsivo */}
+        <div className="grid grid-cols-1 xl:grid-cols-4 gap-6 mb-6">
+          {/* Coluna principal esquerda */}
+          <div className="xl:col-span-3 space-y-6">
+            {/* Perfil do usuário - largura total */}
             <UserProfile />
+            
+            {/* Stats da conta - 3 colunas */}
             <AccountStats />
+            
+            {/* Seção de fatura */}
             <InvoiceSection />
           </div>
           
-          <div className="space-y-6">
+          {/* Sidebar direita */}
+          <div className="xl:col-span-1 space-y-6">
             <LimitsSection />
             <RecentMovements />
           </div>
         </div>
         
-        <ActivityList />
+        {/* Lista de atividades - largura total */}
+        <div className="w-full">
+          <ActivityList />
+        </div>
       </div>
     </div>
   );
