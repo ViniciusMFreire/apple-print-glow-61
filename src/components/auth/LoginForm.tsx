@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -45,6 +46,15 @@ export const LoginForm = () => {
         <div className="absolute top-1/2 left-1/4 w-24 h-24 bg-amarela-normal rounded-full blur-lg"></div>
       </div>
 
+      {/* Logo como marca d'água no fundo */}
+      <div className="absolute inset-0 flex items-center justify-center opacity-5">
+        <img 
+          src="/lovable-uploads/fe0110ab-78d7-4dc4-a991-67d700dc6c0c.png" 
+          alt="Watermark" 
+          className="w-96 h-auto object-contain"
+        />
+      </div>
+
       {/* Login Card */}
       <div className="w-full max-w-md relative z-10">
         <Card className="bg-white shadow-2xl border-0 rounded-2xl overflow-hidden">
@@ -55,7 +65,7 @@ export const LoginForm = () => {
                 <img 
                   src="/lovable-uploads/fe0110ab-78d7-4dc4-a991-67d700dc6c0c.png" 
                   alt="Quero Quero e VerdeCard" 
-                  className="h-20 w-auto object-contain"
+                  className="h-32 w-auto object-contain"
                 />
               </div>
             </div>
