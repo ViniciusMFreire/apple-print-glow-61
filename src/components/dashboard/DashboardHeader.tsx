@@ -16,10 +16,6 @@ export const DashboardHeader = () => {
           />
         </div>
       </div>
-      
-      <div className={`font-semibold text-gray-900 ${getResponsiveClasses.textSize.base} flex-shrink-0`}>
-        GUILHERME
-      </div>
     </header>
   );
 };

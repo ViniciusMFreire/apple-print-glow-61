@@ -7,8 +7,12 @@ import { LimitsSection } from "@/components/dashboard/LimitsSection";
 import { RecentMovements } from "@/components/dashboard/RecentMovements";
 import { ActivityList } from "@/components/dashboard/ActivityList";
 import { LogoutButton } from "@/components/auth/LogoutButton";
+import { useLocation } from "react-router-dom";
 
 const Index = () => {
+  const location = useLocation();
+  const clientData = location.state?.client;
+
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="container mx-auto px-4 py-6 max-w-7xl">
@@ -26,7 +30,7 @@ const Index = () => {
         {/* Layout seguindo exatamente a imagem anexa */}
         <div className="space-y-6">
           {/* Perfil do usuário - largura total */}
-          <UserProfile />
+          <UserProfile clientData={clientData} />
           
           {/* Stats da conta - 3 colunas horizontais */}
           <AccountStats />
