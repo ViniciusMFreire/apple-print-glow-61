@@ -24,7 +24,6 @@ const AppContent = () => {
       <Routes>
         <Route path="/" element={<ClientSearch />} />
         <Route path="/dashboard" element={<Index />} />
-        {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>

@@ -1,16 +1,9 @@
 
 import { getResponsiveClasses } from "@/utils/responsiveUtils";
+import { Client } from "@/domain/entities/Client";
 
 interface UserProfileProps {
-  clientData?: {
-    name?: string;
-    cpf?: string;
-    account?: string;
-    birthday?: string;
-    clientType?: string;
-    category?: string;
-    hasDigitalAccount?: boolean;
-  };
+  clientData?: Client;
 }
 
 export const UserProfile = ({ clientData }: UserProfileProps) => {
@@ -32,7 +25,7 @@ export const UserProfile = ({ clientData }: UserProfileProps) => {
           <div className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 ${getResponsiveClasses.textSize.xs}`}>
             <div className="flex flex-col">
               <span className="text-gray-500">Aniversário</span>
-              <span className="text-green-600 font-bold">{clientData?.birthday || 'Hoje'}</span>
+              <span className="text-green-600 font-bold">{clientData?.birthDate || 'Hoje'}</span>
             </div>
             <div className="flex flex-col">
               <span className="text-gray-500">Tipo Cliente</span>
