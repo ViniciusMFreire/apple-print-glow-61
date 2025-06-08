@@ -77,7 +77,7 @@ export const AccountStats = () => {
 
   return (
     <TooltipProvider>
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         {stats.map((stat, index) => {
           const IconComponent = stat.icon;
           return (
@@ -85,14 +85,14 @@ export const AccountStats = () => {
               <Tooltip>
                 <TooltipTrigger asChild>
                   <PopoverTrigger asChild>
-                    <div className={`bg-white rounded-lg shadow-sm text-center cursor-pointer hover:shadow-md transition-shadow ${getResponsiveClasses.padding.sm} h-full flex flex-col items-center justify-center min-h-[120px]`}>
-                      <div className={`w-12 h-12 ${stat.bgColor} rounded-full flex items-center justify-center mx-auto mb-3`}>
-                        <IconComponent className={`w-6 h-6 ${stat.iconColor}`} />
+                    <div className={`bg-white rounded-lg shadow-sm text-center cursor-pointer hover:shadow-md transition-shadow ${getResponsiveClasses.padding.sm} h-full flex flex-col items-center justify-center min-h-[140px]`}>
+                      <div className={`w-14 h-14 ${stat.bgColor} rounded-full flex items-center justify-center mx-auto mb-3`}>
+                        <IconComponent className={`w-7 h-7 ${stat.iconColor}`} />
                       </div>
                       <h3 className={`font-medium text-gray-900 mb-2 ${getResponsiveClasses.textSize.sm}`}>
                         {stat.title}
                       </h3>
-                      <p className={`font-bold text-gray-900 ${getResponsiveClasses.textSize.xs} break-words px-2`}>
+                      <p className={`font-bold text-gray-900 ${getResponsiveClasses.textSize.sm} break-words px-2 text-center leading-tight`}>
                         {stat.value}
                       </p>
                     </div>

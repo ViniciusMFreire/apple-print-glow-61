@@ -23,30 +23,33 @@ const Index = () => {
           <DashboardHeader />
         </div>
         
-        {/* Layout principal seguindo a imagem anexa */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Coluna esquerda - Perfil e Stats */}
-          <div className="lg:col-span-2 space-y-6">
-            {/* Perfil do usuário */}
-            <UserProfile />
-            
-            {/* Stats da conta em linha */}
-            <AccountStats />
-            
-            {/* Seção de fatura */}
-            <InvoiceSection />
-            
-            {/* Lista de atividades/eventos */}
-            <ActivityList />
-          </div>
+        {/* Layout seguindo exatamente a imagem anexa */}
+        <div className="space-y-6">
+          {/* Perfil do usuário - largura total */}
+          <UserProfile />
           
-          {/* Coluna direita - Sidebar */}
-          <div className="lg:col-span-1 space-y-6">
-            {/* Limites */}
-            <LimitsSection />
+          {/* Stats da conta - 3 colunas horizontais */}
+          <AccountStats />
+          
+          {/* Grid principal com 2 colunas */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            {/* Coluna esquerda - 2/3 da largura */}
+            <div className="lg:col-span-2 space-y-6">
+              {/* Seção de fatura */}
+              <InvoiceSection />
+              
+              {/* Lista de atividades/eventos */}
+              <ActivityList />
+            </div>
             
-            {/* Movimentações recentes */}
-            <RecentMovements />
+            {/* Coluna direita - 1/3 da largura */}
+            <div className="lg:col-span-1 space-y-6">
+              {/* Limites */}
+              <LimitsSection />
+              
+              {/* Movimentações recentes */}
+              <RecentMovements />
+            </div>
           </div>
         </div>
       </div>
