@@ -33,6 +33,10 @@ export const LoginForm = () => {
     }, 1000);
   };
 
+  const handleForgotPassword = () => {
+    toast.info('Funcionalidade de recuperação de senha será implementada em breve.');
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-verde-dark via-green-600 to-green-500 flex items-center justify-center px-4 relative overflow-hidden">
       {/* Background decorative elements */}
@@ -47,13 +51,19 @@ export const LoginForm = () => {
         <Card className="bg-white shadow-2xl border-0 rounded-2xl overflow-hidden">
           <CardHeader className="text-center py-8 px-8">
             <div className="mb-6">
-              {/* Logo placeholder - using text for now */}
-              <div className="inline-flex items-center justify-center w-16 h-16 bg-verde-dark rounded-xl mb-4">
-                <span className="text-white font-bold text-xl">VC</span>
+              {/* Logos - VerdeCard e Quero Quero */}
+              <div className="flex items-center justify-center gap-4 mb-4">
+                <div className="inline-flex items-center justify-center w-16 h-16 bg-verde-dark rounded-xl">
+                  <span className="text-white font-bold text-xl">VC</span>
+                </div>
+                <div className="text-2xl font-bold text-gray-400">+</div>
+                <div className="inline-flex items-center justify-center w-16 h-16 bg-red-600 rounded-xl">
+                  <span className="text-white font-bold text-xl">QQ</span>
+                </div>
               </div>
             </div>
             <CardTitle className="text-2xl font-bold text-gray-800 mb-2">
-              Informe seus dados!
+              Por favor, informe seus dados.
             </CardTitle>
             <p className="text-gray-500 text-sm">v2.0.2</p>
           </CardHeader>
@@ -101,6 +111,17 @@ export const LoginForm = () => {
                     )}
                   </button>
                 </div>
+              </div>
+
+              {/* Esqueci minha senha */}
+              <div className="text-right">
+                <button
+                  type="button"
+                  onClick={handleForgotPassword}
+                  className="text-sm text-verde-dark hover:text-verde-dark/80 transition-colors underline"
+                >
+                  Esqueci minha senha
+                </button>
               </div>
               
               <div className="pt-4">
