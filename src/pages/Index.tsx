@@ -23,30 +23,31 @@ const Index = () => {
           <DashboardHeader />
         </div>
         
-        {/* Layout principal em grid responsivo */}
-        <div className="grid grid-cols-1 xl:grid-cols-4 gap-6 mb-6">
-          {/* Coluna principal esquerda */}
-          <div className="xl:col-span-3 space-y-6">
-            {/* Perfil do usuário - largura total */}
+        {/* Layout principal seguindo a imagem anexa */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* Coluna esquerda - Perfil e Stats */}
+          <div className="lg:col-span-2 space-y-6">
+            {/* Perfil do usuário */}
             <UserProfile />
             
-            {/* Stats da conta - 3 colunas */}
+            {/* Stats da conta em linha */}
             <AccountStats />
             
             {/* Seção de fatura */}
             <InvoiceSection />
+            
+            {/* Lista de atividades/eventos */}
+            <ActivityList />
           </div>
           
-          {/* Sidebar direita */}
-          <div className="xl:col-span-1 space-y-6">
+          {/* Coluna direita - Sidebar */}
+          <div className="lg:col-span-1 space-y-6">
+            {/* Limites */}
             <LimitsSection />
+            
+            {/* Movimentações recentes */}
             <RecentMovements />
           </div>
-        </div>
-        
-        {/* Lista de atividades - largura total */}
-        <div className="w-full">
-          <ActivityList />
         </div>
       </div>
     </div>
