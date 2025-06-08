@@ -7,6 +7,9 @@ import { LimitsSection } from "@/components/dashboard/LimitsSection";
 import { RecentMovements } from "@/components/dashboard/RecentMovements";
 import { ActivityList } from "@/components/dashboard/ActivityList";
 import { LogoutButton } from "@/components/auth/LogoutButton";
+import { ResponsiveContainer } from "@/components/ui/responsive-container";
+import { ResponsiveGrid } from "@/components/ui/responsive-grid";
+import { ResponsiveText } from "@/components/ui/responsive-text";
 import { useLocation } from "react-router-dom";
 
 const Index = () => {
@@ -14,11 +17,13 @@ const Index = () => {
   const clientData = location.state?.client;
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="container mx-auto px-4 py-6 max-w-7xl">
+    <div className="min-h-screen bg-background">
+      <ResponsiveContainer variant="dashboard">
         {/* Header com botão de logout */}
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
-          <h1 className="text-2xl md:text-3xl font-bold text-verde-dark">Dashboard</h1>
+          <ResponsiveText size="2xl" weight="bold" color="default">
+            Dashboard
+          </ResponsiveText>
           <LogoutButton />
         </div>
 
@@ -36,7 +41,7 @@ const Index = () => {
           <AccountStats />
           
           {/* Grid principal com 2 colunas */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <ResponsiveGrid variant="dashboard" gap="lg">
             {/* Coluna esquerda - 2/3 da largura */}
             <div className="lg:col-span-2 space-y-6">
               {/* Seção de fatura */}
@@ -54,9 +59,9 @@ const Index = () => {
               {/* Movimentações recentes */}
               <RecentMovements />
             </div>
-          </div>
+          </ResponsiveGrid>
         </div>
-      </div>
+      </ResponsiveContainer>
     </div>
   );
 };

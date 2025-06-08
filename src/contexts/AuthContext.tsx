@@ -1,29 +1,48 @@
-import React, { createContext, useContext, ReactNode } from 'react';
-import { useAuth } from '../presentation/hooks/useAuth';
-import { User } from '../domain/entities/User';
+
+import React, { createContext, useContext, useState, ReactNode } from 'react';
+import { User, AuthCredentials } from '@/domain/entities/User';
+import { container } from '@/infrastructure/di/Container';
 
 interface AuthContextType {
-  isAuthenticated: boolean;
-  login: (email: string, password: string) => Promise<boolean>;
-  logout: () => Promise<void>;
   user: User | null;
+  isAuthenticated: boolean;
+  login: (credentials: AuthCredentials) => Promise<void>;
+  logout: () => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const useAuthContext = () => {
   const context = useContext(AuthContext);
-  if (context === undefined) {
+  if (!context) {
     throw new Error('useAuthContext must be used within an AuthProvider');
   }
   return context;
 };
 
-export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const auth = useAuth();
+interface AuthProviderProps {
+  children: ReactNode;
+}
 
-  return <AuthContext.Provider value={auth}>{children}</AuthContext.Provider>;
+export const AuthProvider = ({ children }: AuthProviderProps) => {
+  const [user, setUser] = useState<User | null>(null);
+  const authUseCase = container.getAuthUseCase();
+
+  const login = async (credentials: AuthCredentials) => {
+    const loggedInUser = await authUseCase.login(credentials);
+    setUser(loggedInUser);
+  };
+
+  const logout = () => {
+    authUseCase.logout();
+    setUser(null);
+  };
+
+  const isAuthenticated = !!user;
+
+  return (
+    <AuthContext.Provider value={{ user, isAuthenticated, login, logout }}>
+      {children}
+    </AuthContext.Provider>
+  );
 };
-
-// Mantendo compatibilidade com código existente
-export const useAuth = useAuthContext;
