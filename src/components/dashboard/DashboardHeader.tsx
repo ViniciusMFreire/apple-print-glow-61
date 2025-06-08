@@ -19,8 +19,8 @@ export const DashboardHeader = ({ onSearchUser }: DashboardHeaderProps) => {
             className="flex items-center gap-2 px-4 py-2 border-2 border-border hover:border-primary transition-all duration-200"
           >
             <Search className="h-4 w-4" />
-            <span className="hidden sm:inline">Pesquisar outro usuário</span>
-            <span className="sm:hidden">Pesquisar usuário</span>
+            <span className="hidden sm:inline">Pesquisar outro Cliente</span>
+            <span className="sm:hidden">Pesquisar Cliente</span>
           </Button>
         </div>
       </ResponsiveContainer>
