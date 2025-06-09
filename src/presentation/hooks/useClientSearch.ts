@@ -5,24 +5,59 @@ import { ClientSearchPresenter, ClientSearchState } from '../presenters/ClientSe
 import { Client, ClientSearchCriteria } from '../../domain/entities/Client';
 import Container from '../../infrastructure/di/Container';
 
+interface ExtendedClientSearchState extends ClientSearchState {
+  showTypeSelector: boolean;
+  ambiguousValue: string;
+}
+
 export const useClientSearch = () => {
-  const [state, setState] = useState<ClientSearchState>({
+  const [state, setState] = useState<ExtendedClientSearchState>({
     clients: [],
     loading: false,
     error: null,
-    showResults: false
+    showResults: false,
+    showTypeSelector: false,
+    ambiguousValue: ''
   });
 
   const clientSearchUseCase = new ClientSearchUseCase(Container.getInstance().clientRepository);
   const presenter = new ClientSearchPresenter();
 
-  const searchClients = async (searchTerm: string) => {
+  const searchClients = async (searchTerm: string, forceType?: 'cpf' | 'phone') => {
     if (!searchTerm.trim()) return;
 
-    setState(prev => ({ ...prev, loading: true, error: null }));
+    // Verifica se há ambiguidade apenas se não foi forçado um tipo
+    if (!forceType) {
+      const { isCpf, isPhone } = clientSearchUseCase.checkAmbiguousSearch(searchTerm);
+      
+      if (isCpf && isPhone) {
+        setState(prev => ({
+          ...prev,
+          showTypeSelector: true,
+          ambiguousValue: searchTerm,
+          showResults: false
+        }));
+        return;
+      }
+    }
+
+    setState(prev => ({ 
+      ...prev, 
+      loading: true, 
+      error: null, 
+      showTypeSelector: false,
+      ambiguousValue: ''
+    }));
 
     try {
-      const searchType = clientSearchUseCase.detectSearchType(searchTerm);
+      let searchType: string;
+      
+      if (forceType) {
+        searchType = forceType === 'cpf' ? 'CPF' : 'Telefone';
+      } else {
+        searchType = clientSearchUseCase.detectSearchType(searchTerm);
+      }
+      
       const criteria: ClientSearchCriteria = {
         value: searchTerm,
         type: clientSearchUseCase.mapSearchTypeToEnum(searchType)
@@ -45,6 +80,18 @@ export const useClientSearch = () => {
         showResults: true
       }));
     }
+  };
+
+  const handleTypeSelection = (type: 'cpf' | 'phone') => {
+    searchClients(state.ambiguousValue, type);
+  };
+
+  const cancelTypeSelection = () => {
+    setState(prev => ({
+      ...prev,
+      showTypeSelector: false,
+      ambiguousValue: ''
+    }));
   };
 
   const getClientById = async (id: string): Promise<Client | null> => {
@@ -79,6 +126,8 @@ export const useClientSearch = () => {
     detectSearchType,
     getTypeIcon,
     getTypeColor,
-    formatClientForDisplay
+    formatClientForDisplay,
+    handleTypeSelection,
+    cancelTypeSelection
   };
 };

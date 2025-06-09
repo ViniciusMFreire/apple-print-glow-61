@@ -10,6 +10,7 @@ import { Client } from '@/domain/entities/Client';
 import { ResponsiveText } from '@/components/ui/responsive-text';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useClientSearchModal } from '@/presentation/hooks/useClientSearchModal';
+import { SearchTypeSelector } from './SearchTypeSelector';
 
 interface ClientSearchModalProps {
   isOpen: boolean;
@@ -38,10 +39,14 @@ export const ClientSearchModal = ({ isOpen, onClose, onSelectClient }: ClientSea
     loading,
     error,
     showResults,
+    showTypeSelector,
+    ambiguousValue,
     detectSearchType,
     getTypeIcon,
     getTypeColor,
-    formatClientForDisplay
+    formatClientForDisplay,
+    handleTypeSelection,
+    cancelTypeSelection
   } = useClientSearchModal((client: Client) => {
     onSelectClient(client);
     onClose();
@@ -72,7 +77,7 @@ export const ClientSearchModal = ({ isOpen, onClose, onSelectClient }: ClientSea
               />
             </div>
 
-            {searchTerm && (
+            {searchTerm && !showTypeSelector && (
               <div className="mt-2">
                 <Badge variant="outline" className={getTypeColor(searchType.toLowerCase())}>
                   <IconComponent className="h-4 w-4" />
@@ -82,9 +87,17 @@ export const ClientSearchModal = ({ isOpen, onClose, onSelectClient }: ClientSea
             )}
           </div>
 
+          {showTypeSelector && (
+            <SearchTypeSelector
+              searchValue={ambiguousValue}
+              onSelectType={handleTypeSelection}
+              onCancel={cancelTypeSelection}
+            />
+          )}
+
           <Button 
             onClick={handleSearch}
-            disabled={!searchTerm || loading}
+            disabled={!searchTerm || loading || showTypeSelector}
             className="w-full h-12 bg-verde-dark hover:bg-verde-dark/90 text-white font-semibold rounded-xl"
           >
             <Search className="h-5 w-5 mr-2" />

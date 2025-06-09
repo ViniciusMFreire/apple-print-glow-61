@@ -1,6 +1,7 @@
 
 import { IClientRepository } from '../../domain/repositories/IClientRepository';
 import { Client, ClientSearchCriteria } from '../../domain/entities/Client';
+import { validateCPF, validatePhone } from '../../utils/cpfValidator';
 
 export class ClientSearchUseCase {
   constructor(private clientRepository: IClientRepository) {}
@@ -23,13 +24,38 @@ export class ClientSearchUseCase {
 
   detectSearchType(value: string): string {
     const cleanValue = value.replace(/\D/g, '');
-    if (cleanValue.length === 11) return 'CPF';
+    
+    // Verifica se é um CPF válido
+    if (cleanValue.length === 11 && validateCPF(cleanValue)) {
+      return 'CPF';
+    }
+    
+    // Verifica se é um celular válido
+    if (cleanValue.length === 11 && validatePhone(cleanValue)) {
+      return 'Telefone';
+    }
+    
+    // Verifica CNPJ
     if (cleanValue.length === 14) return 'CNPJ';
-    if (cleanValue.length >= 10 && cleanValue.length <= 11) return 'Telefone';
+    
+    // Verifica outros padrões
     if (/^CT-/.test(value.toUpperCase())) return 'Contrato';
     if (/^PD-/.test(value.toUpperCase())) return 'Pedido';
     if (cleanValue.length === 8) return 'Conta';
+    
     return 'Texto';
+  }
+
+  checkAmbiguousSearch(value: string): { isCpf: boolean; isPhone: boolean } {
+    const cleanValue = value.replace(/\D/g, '');
+    
+    if (cleanValue.length === 11) {
+      const isCpf = validateCPF(cleanValue);
+      const isPhone = validatePhone(cleanValue);
+      return { isCpf, isPhone };
+    }
+    
+    return { isCpf: false, isPhone: false };
   }
 
   mapSearchTypeToEnum(type: string): 'cpf' | 'account' | 'phone' | 'contract' {

@@ -18,11 +18,11 @@ export const useClientSearchModal = (onSelectClient: (client: Client) => void) =
 
   const resetModal = () => {
     setSearchTerm('');
-    // Reset search state if needed
+    clientSearch.cancelTypeSelection();
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter') {
+    if (e.key === 'Enter' && !clientSearch.showTypeSelector) {
       handleSearch();
     }
   };

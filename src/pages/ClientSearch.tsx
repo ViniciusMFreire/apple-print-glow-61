@@ -13,6 +13,7 @@ import { ResponsiveContainer } from '@/components/ui/responsive-container';
 import { ResponsiveText } from '@/components/ui/responsive-text';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useClientSearch } from '@/presentation/hooks/useClientSearch';
+import { SearchTypeSelector } from '@/components/dashboard/SearchTypeSelector';
 
 const iconMap = {
   User,
@@ -33,11 +34,15 @@ export const ClientSearch = () => {
     loading,
     error,
     showResults,
+    showTypeSelector,
+    ambiguousValue,
     searchClients,
     detectSearchType,
     getTypeIcon,
     getTypeColor,
-    formatClientForDisplay
+    formatClientForDisplay,
+    handleTypeSelection,
+    cancelTypeSelection
   } = useClientSearch();
 
   const handleSearch = async () => {
@@ -49,7 +54,7 @@ export const ClientSearch = () => {
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter') {
+    if (e.key === 'Enter' && !showTypeSelector) {
       handleSearch();
     }
   };
@@ -93,7 +98,7 @@ export const ClientSearch = () => {
                   />
                 </div>
 
-                {searchTerm && (
+                {searchTerm && !showTypeSelector && (
                   <div className="mt-2">
                     <Badge variant="outline" className={getTypeColor(searchType.toLowerCase())}>
                       <IconComponent className="h-4 w-4" />
@@ -103,10 +108,18 @@ export const ClientSearch = () => {
                 )}
               </div>
 
+              {showTypeSelector && (
+                <SearchTypeSelector
+                  searchValue={ambiguousValue}
+                  onSelectType={handleTypeSelection}
+                  onCancel={cancelTypeSelection}
+                />
+              )}
+
               <div className="flex flex-col sm:flex-row gap-3">
                 <Button 
                   onClick={handleSearch}
-                  disabled={!searchTerm || loading}
+                  disabled={!searchTerm || loading || showTypeSelector}
                   className="flex-1 h-10 md:h-12 bg-verde-dark hover:bg-verde-dark/90 text-white font-semibold rounded-xl"
                 >
                   <Search className="h-4 w-4 md:h-5 md:w-5 mr-2" />
