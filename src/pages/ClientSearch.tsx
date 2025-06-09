@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+
+import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -8,103 +9,43 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { useAuth } from '@/contexts/AuthContext';
 import { Search, User, Phone, FileText, CreditCard } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { useClient } from '@/presentation/hooks/useClient';
-import { ClientSearchCriteria } from '@/domain/entities/Client';
 import { ResponsiveContainer } from '@/components/ui/responsive-container';
 import { ResponsiveText } from '@/components/ui/responsive-text';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { useClientSearch } from '@/presentation/hooks/useClientSearch';
 
-const getTypeIcon = (type: string) => {
-  switch (type) {
-    case 'cpf':
-    case 'cnpj':
-      return <User className="h-4 w-4" />;
-    case 'telefone':
-      return <Phone className="h-4 w-4" />;
-    case 'contrato':
-    case 'pedido':
-      return <FileText className="h-4 w-4" />;
-    case 'conta':
-      return <CreditCard className="h-4 w-4" />;
-    default:
-      return <Search className="h-4 w-4" />;
-  }
-};
-
-const getTypeColor = (type: string) => {
-  switch (type) {
-    case 'cpf':
-      return 'bg-blue-100 text-blue-800';
-    case 'cnpj':
-      return 'bg-purple-100 text-purple-800';
-    case 'telefone':
-      return 'bg-green-100 text-green-800';
-    case 'contrato':
-      return 'bg-orange-100 text-orange-800';
-    case 'pedido':
-      return 'bg-red-100 text-red-800';
-    case 'conta':
-      return 'bg-indigo-100 text-indigo-800';
-    default:
-      return 'bg-gray-100 text-gray-800';
-  }
+const iconMap = {
+  User,
+  Phone,
+  FileText,
+  CreditCard,
+  Search
 };
 
 export const ClientSearch = () => {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [showResults, setShowResults] = useState(false);
+  const [searchTerm, setSearchTerm] = React.useState('');
   const { logout } = useAuth();
   const navigate = useNavigate();
-  const { clients, loading, error, searchClients } = useClient();
   const isMobile = useIsMobile();
+  
+  const {
+    clients,
+    loading,
+    error,
+    showResults,
+    searchClients,
+    detectSearchType,
+    getTypeIcon,
+    getTypeColor,
+    formatClientForDisplay
+  } = useClientSearch();
 
   const handleSearch = async () => {
-    if (!searchTerm.trim()) return;
-
-    const searchType = detectSearchType(searchTerm);
-    const criteria: ClientSearchCriteria = {
-      value: searchTerm,
-      type: mapSearchTypeToEnum(searchType)
-    };
-
-    try {
-      await searchClients(criteria);
-      setShowResults(true);
-    } catch (err) {
-      console.error('Erro na busca:', err);
-    }
+    await searchClients(searchTerm);
   };
 
   const handleSelectClient = (client: any) => {
     navigate('/dashboard', { state: { client } });
-  };
-
-  const detectSearchType = (value: string) => {
-    const cleanValue = value.replace(/\D/g, '');
-    if (cleanValue.length === 11) return 'CPF';
-    if (cleanValue.length === 14) return 'CNPJ';
-    if (cleanValue.length >= 10 && cleanValue.length <= 11) return 'Telefone';
-    if (/^CT-/.test(value.toUpperCase())) return 'Contrato';
-    if (/^PD-/.test(value.toUpperCase())) return 'Pedido';
-    if (cleanValue.length === 8) return 'Conta';
-    return 'Texto';
-  };
-
-  const mapSearchTypeToEnum = (type: string): 'cpf' | 'account' | 'phone' | 'contract' => {
-    switch (type.toLowerCase()) {
-      case 'cpf':
-      case 'cnpj':
-        return 'cpf';
-      case 'telefone':
-        return 'phone';
-      case 'contrato':
-      case 'pedido':
-        return 'contract';
-      case 'conta':
-        return 'account';
-      default:
-        return 'cpf';
-    }
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
@@ -112,6 +53,9 @@ export const ClientSearch = () => {
       handleSearch();
     }
   };
+
+  const searchType = searchTerm ? detectSearchType(searchTerm) : '';
+  const IconComponent = searchType ? iconMap[getTypeIcon(searchType.toLowerCase()) as keyof typeof iconMap] : Search;
 
   return (
     <div 
@@ -151,9 +95,9 @@ export const ClientSearch = () => {
 
                 {searchTerm && (
                   <div className="mt-2">
-                    <Badge variant="outline" className={getTypeColor(detectSearchType(searchTerm).toLowerCase())}>
-                      {getTypeIcon(detectSearchType(searchTerm).toLowerCase())}
-                      <span className="ml-1">{detectSearchType(searchTerm)}</span>
+                    <Badge variant="outline" className={getTypeColor(searchType.toLowerCase())}>
+                      <IconComponent className="h-4 w-4" />
+                      <span className="ml-1">{searchType}</span>
                     </Badge>
                   </div>
                 )}
@@ -196,43 +140,41 @@ export const ClientSearch = () => {
                   <CardContent className="p-0">
                     <ScrollArea className="h-64 md:h-96">
                       {isMobile ? (
-                        // Mobile card layout
                         <div className="space-y-3 p-3">
-                          {clients.map((client) => (
-                            <Card key={client.id} className="p-3 hover:bg-gray-50">
-                              <div className="space-y-2">
-                                <div className="flex justify-between items-start">
-                                  <div>
-                                    <ResponsiveText size="sm" weight="semibold">{client.name}</ResponsiveText>
-                                    <ResponsiveText size="xs" color="muted">Conta: {client.account}</ResponsiveText>
+                          {clients.map((client) => {
+                            const formattedClient = formatClientForDisplay(client);
+                            return (
+                              <Card key={client.id} className="p-3 hover:bg-gray-50">
+                                <div className="space-y-2">
+                                  <div className="flex justify-between items-start">
+                                    <div>
+                                      <ResponsiveText size="sm" weight="semibold">{formattedClient.displayName}</ResponsiveText>
+                                      <ResponsiveText size="xs" color="muted">Conta: {formattedClient.displayAccount}</ResponsiveText>
+                                    </div>
+                                    <Badge variant="outline" className={formattedClient.statusColor}>
+                                      {client.status}
+                                    </Badge>
                                   </div>
-                                  <Badge 
-                                    variant="outline" 
-                                    className={client.status === 'Ativo' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}
+                                  <div className="space-y-1">
+                                    <div className="flex items-center space-x-1">
+                                      <User className="h-3 w-3" />
+                                      <ResponsiveText size="xs">{formattedClient.displayCpf}</ResponsiveText>
+                                    </div>
+                                    <ResponsiveText size="xs" color="muted">{formattedClient.displayPhone}</ResponsiveText>
+                                  </div>
+                                  <Button
+                                    onClick={() => handleSelectClient(client)}
+                                    size="sm"
+                                    className="w-full bg-verde-dark hover:bg-verde-dark/90 text-white"
                                   >
-                                    {client.status}
-                                  </Badge>
+                                    Selecionar
+                                  </Button>
                                 </div>
-                                <div className="space-y-1">
-                                  <div className="flex items-center space-x-1">
-                                    <User className="h-3 w-3" />
-                                    <ResponsiveText size="xs">{client.cpf}</ResponsiveText>
-                                  </div>
-                                  <ResponsiveText size="xs" color="muted">{client.phone}</ResponsiveText>
-                                </div>
-                                <Button
-                                  onClick={() => handleSelectClient(client)}
-                                  size="sm"
-                                  className="w-full bg-verde-dark hover:bg-verde-dark/90 text-white"
-                                >
-                                  Selecionar
-                                </Button>
-                              </div>
-                            </Card>
-                          ))}
+                              </Card>
+                            );
+                          })}
                         </div>
                       ) : (
-                        // Desktop table layout
                         <Table>
                           <TableHeader>
                             <TableRow>
@@ -245,38 +187,36 @@ export const ClientSearch = () => {
                             </TableRow>
                           </TableHeader>
                           <TableBody>
-                            {clients.map((client) => (
-                              <TableRow key={client.id} className="hover:bg-gray-50">
-                                <TableCell className="font-medium">
-                                  {client.account}
-                                </TableCell>
-                                <TableCell>
-                                  <div className="flex items-center space-x-2">
-                                    <User className="h-4 w-4" />
-                                    <span>{client.cpf}</span>
-                                  </div>
-                                </TableCell>
-                                <TableCell>{client.name}</TableCell>
-                                <TableCell>{client.phone}</TableCell>
-                                <TableCell>
-                                  <Badge 
-                                    variant="outline" 
-                                    className={client.status === 'Ativo' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}
-                                  >
-                                    {client.status}
-                                  </Badge>
-                                </TableCell>
-                                <TableCell>
-                                  <Button
-                                    onClick={() => handleSelectClient(client)}
-                                    size="sm"
-                                    className="bg-verde-dark hover:bg-verde-dark/90 text-white"
-                                  >
-                                    Selecionar
-                                  </Button>
-                                </TableCell>
-                              </TableRow>
-                            ))}
+                            {clients.map((client) => {
+                              const formattedClient = formatClientForDisplay(client);
+                              return (
+                                <TableRow key={client.id} className="hover:bg-gray-50">
+                                  <TableCell className="font-medium">{formattedClient.displayAccount}</TableCell>
+                                  <TableCell>
+                                    <div className="flex items-center space-x-2">
+                                      <User className="h-4 w-4" />
+                                      <span>{formattedClient.displayCpf}</span>
+                                    </div>
+                                  </TableCell>
+                                  <TableCell>{formattedClient.displayName}</TableCell>
+                                  <TableCell>{formattedClient.displayPhone}</TableCell>
+                                  <TableCell>
+                                    <Badge variant="outline" className={formattedClient.statusColor}>
+                                      {client.status}
+                                    </Badge>
+                                  </TableCell>
+                                  <TableCell>
+                                    <Button
+                                      onClick={() => handleSelectClient(client)}
+                                      size="sm"
+                                      className="bg-verde-dark hover:bg-verde-dark/90 text-white"
+                                    >
+                                      Selecionar
+                                    </Button>
+                                  </TableCell>
+                                </TableRow>
+                              );
+                            })}
                           </TableBody>
                         </Table>
                       )}

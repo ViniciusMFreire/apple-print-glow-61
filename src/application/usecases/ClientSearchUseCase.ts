@@ -1,0 +1,51 @@
+
+import { IClientRepository } from '../../domain/repositories/IClientRepository';
+import { Client, ClientSearchCriteria } from '../../domain/entities/Client';
+
+export class ClientSearchUseCase {
+  constructor(private clientRepository: IClientRepository) {}
+
+  async searchClients(criteria: ClientSearchCriteria): Promise<Client[]> {
+    if (!criteria.value.trim()) {
+      throw new Error('Critério de busca não pode estar vazio');
+    }
+
+    return await this.clientRepository.search(criteria);
+  }
+
+  async getClientById(id: string): Promise<Client | null> {
+    if (!id) {
+      throw new Error('ID do cliente é obrigatório');
+    }
+
+    return await this.clientRepository.getById(id);
+  }
+
+  detectSearchType(value: string): string {
+    const cleanValue = value.replace(/\D/g, '');
+    if (cleanValue.length === 11) return 'CPF';
+    if (cleanValue.length === 14) return 'CNPJ';
+    if (cleanValue.length >= 10 && cleanValue.length <= 11) return 'Telefone';
+    if (/^CT-/.test(value.toUpperCase())) return 'Contrato';
+    if (/^PD-/.test(value.toUpperCase())) return 'Pedido';
+    if (cleanValue.length === 8) return 'Conta';
+    return 'Texto';
+  }
+
+  mapSearchTypeToEnum(type: string): 'cpf' | 'account' | 'phone' | 'contract' {
+    switch (type.toLowerCase()) {
+      case 'cpf':
+      case 'cnpj':
+        return 'cpf';
+      case 'telefone':
+        return 'phone';
+      case 'contrato':
+      case 'pedido':
+        return 'contract';
+      case 'conta':
+        return 'account';
+      default:
+        return 'cpf';
+    }
+  }
+}

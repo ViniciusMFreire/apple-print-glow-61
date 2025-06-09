@@ -1,6 +1,7 @@
 
 import { AuthUseCase } from '../../application/usecases/AuthUseCase';
 import { ClientUseCase } from '../../application/usecases/ClientUseCase';
+import { ClientSearchUseCase } from '../../application/usecases/ClientSearchUseCase';
 import { LocalAuthRepository } from '../repositories/LocalAuthRepository';
 import { MockClientRepository } from '../repositories/MockClientRepository';
 
@@ -12,6 +13,7 @@ class Container {
   
   private _authUseCase = new AuthUseCase(this._authRepository);
   private _clientUseCase = new ClientUseCase(this._clientRepository);
+  private _clientSearchUseCase = new ClientSearchUseCase(this._clientRepository);
 
   static getInstance(): Container {
     if (!Container.instance) {
@@ -26,6 +28,14 @@ class Container {
 
   get clientUseCase(): ClientUseCase {
     return this._clientUseCase;
+  }
+
+  get clientSearchUseCase(): ClientSearchUseCase {
+    return this._clientSearchUseCase;
+  }
+
+  get clientRepository() {
+    return this._clientRepository;
   }
 }
 

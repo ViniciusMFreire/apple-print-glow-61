@@ -1,15 +1,15 @@
 
-import React, { useState } from 'react';
+import React from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Search, User, Phone, FileText, CreditCard } from 'lucide-react';
-import { useClient } from '@/presentation/hooks/useClient';
-import { ClientSearchCriteria, Client } from '@/domain/entities/Client';
+import { Client } from '@/domain/entities/Client';
 import { ResponsiveText } from '@/components/ui/responsive-text';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { useClientSearchModal } from '@/presentation/hooks/useClientSearchModal';
 
 interface ClientSearchModalProps {
   isOpen: boolean;
@@ -17,105 +17,38 @@ interface ClientSearchModalProps {
   onSelectClient: (client: Client) => void;
 }
 
-const getTypeIcon = (type: string) => {
-  switch (type) {
-    case 'cpf':
-    case 'cnpj':
-      return <User className="h-4 w-4" />;
-    case 'telefone':
-      return <Phone className="h-4 w-4" />;
-    case 'contrato':
-    case 'pedido':
-      return <FileText className="h-4 w-4" />;
-    case 'conta':
-      return <CreditCard className="h-4 w-4" />;
-    default:
-      return <Search className="h-4 w-4" />;
-  }
-};
-
-const getTypeColor = (type: string) => {
-  switch (type) {
-    case 'cpf':
-      return 'bg-blue-100 text-blue-800';
-    case 'cnpj':
-      return 'bg-purple-100 text-purple-800';
-    case 'telefone':
-      return 'bg-green-100 text-green-800';
-    case 'contrato':
-      return 'bg-orange-100 text-orange-800';
-    case 'pedido':
-      return 'bg-red-100 text-red-800';
-    case 'conta':
-      return 'bg-indigo-100 text-indigo-800';
-    default:
-      return 'bg-gray-100 text-gray-800';
-  }
+const iconMap = {
+  User,
+  Phone,
+  FileText,
+  CreditCard,
+  Search
 };
 
 export const ClientSearchModal = ({ isOpen, onClose, onSelectClient }: ClientSearchModalProps) => {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [showResults, setShowResults] = useState(false);
-  const { clients, loading, error, searchClients } = useClient();
   const isMobile = useIsMobile();
-
-  const detectSearchType = (value: string) => {
-    const cleanValue = value.replace(/\D/g, '');
-    if (cleanValue.length === 11) return 'CPF';
-    if (cleanValue.length === 14) return 'CNPJ';
-    if (cleanValue.length >= 10 && cleanValue.length <= 11) return 'Telefone';
-    if (/^CT-/.test(value.toUpperCase())) return 'Contrato';
-    if (/^PD-/.test(value.toUpperCase())) return 'Pedido';
-    if (cleanValue.length === 8) return 'Conta';
-    return 'Texto';
-  };
-
-  const mapSearchTypeToEnum = (type: string): 'cpf' | 'account' | 'phone' | 'contract' => {
-    switch (type.toLowerCase()) {
-      case 'cpf':
-      case 'cnpj':
-        return 'cpf';
-      case 'telefone':
-        return 'phone';
-      case 'contrato':
-      case 'pedido':
-        return 'contract';
-      case 'conta':
-        return 'account';
-      default:
-        return 'cpf';
-    }
-  };
-
-  const handleSearch = async () => {
-    if (!searchTerm.trim()) return;
-
-    const searchType = detectSearchType(searchTerm);
-    const criteria: ClientSearchCriteria = {
-      value: searchTerm,
-      type: mapSearchTypeToEnum(searchType)
-    };
-
-    try {
-      await searchClients(criteria);
-      setShowResults(true);
-    } catch (err) {
-      console.error('Erro na busca:', err);
-    }
-  };
-
-  const handleSelectClient = (client: Client) => {
+  
+  const {
+    searchTerm,
+    setSearchTerm,
+    handleSearch,
+    handleSelectClient,
+    handleKeyPress,
+    clients,
+    loading,
+    error,
+    showResults,
+    detectSearchType,
+    getTypeIcon,
+    getTypeColor,
+    formatClientForDisplay
+  } = useClientSearchModal((client: Client) => {
     onSelectClient(client);
     onClose();
-    setSearchTerm('');
-    setShowResults(false);
-  };
+  });
 
-  const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter') {
-      handleSearch();
-    }
-  };
+  const searchType = searchTerm ? detectSearchType(searchTerm) : '';
+  const IconComponent = searchType ? iconMap[getTypeIcon(searchType.toLowerCase()) as keyof typeof iconMap] : Search;
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -141,9 +74,9 @@ export const ClientSearchModal = ({ isOpen, onClose, onSelectClient }: ClientSea
 
             {searchTerm && (
               <div className="mt-2">
-                <Badge variant="outline" className={getTypeColor(detectSearchType(searchTerm).toLowerCase())}>
-                  {getTypeIcon(detectSearchType(searchTerm).toLowerCase())}
-                  <span className="ml-1">{detectSearchType(searchTerm)}</span>
+                <Badge variant="outline" className={getTypeColor(searchType.toLowerCase())}>
+                  <IconComponent className="h-4 w-4" />
+                  <span className="ml-1">{searchType}</span>
                 </Badge>
               </div>
             )}
@@ -174,31 +107,31 @@ export const ClientSearchModal = ({ isOpen, onClose, onSelectClient }: ClientSea
               <ScrollArea className="h-64 md:h-96">
                 {clients.length > 0 ? (
                   <div className="space-y-3 p-3">
-                    {clients.map((client) => (
-                      <div key={client.id} className="p-3 border rounded-lg hover:bg-gray-50 cursor-pointer" onClick={() => handleSelectClient(client)}>
-                        <div className="space-y-2">
-                          <div className="flex justify-between items-start">
-                            <div>
-                              <ResponsiveText size="sm" weight="semibold">{client.name}</ResponsiveText>
-                              <ResponsiveText size="xs" color="muted">Conta: {client.account}</ResponsiveText>
+                    {clients.map((client) => {
+                      const formattedClient = formatClientForDisplay(client);
+                      return (
+                        <div key={client.id} className="p-3 border rounded-lg hover:bg-gray-50 cursor-pointer" onClick={() => handleSelectClient(client)}>
+                          <div className="space-y-2">
+                            <div className="flex justify-between items-start">
+                              <div>
+                                <ResponsiveText size="sm" weight="semibold">{formattedClient.displayName}</ResponsiveText>
+                                <ResponsiveText size="xs" color="muted">Conta: {formattedClient.displayAccount}</ResponsiveText>
+                              </div>
+                              <Badge variant="outline" className={formattedClient.statusColor}>
+                                {client.status}
+                              </Badge>
                             </div>
-                            <Badge 
-                              variant="outline" 
-                              className={client.status === 'Ativo' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}
-                            >
-                              {client.status}
-                            </Badge>
-                          </div>
-                          <div className="space-y-1">
-                            <div className="flex items-center space-x-1">
-                              <User className="h-3 w-3" />
-                              <ResponsiveText size="xs">{client.cpf}</ResponsiveText>
+                            <div className="space-y-1">
+                              <div className="flex items-center space-x-1">
+                                <User className="h-3 w-3" />
+                                <ResponsiveText size="xs">{formattedClient.displayCpf}</ResponsiveText>
+                              </div>
+                              <ResponsiveText size="xs" color="muted">{formattedClient.displayPhone}</ResponsiveText>
                             </div>
-                            <ResponsiveText size="xs" color="muted">{client.phone}</ResponsiveText>
                           </div>
                         </div>
-                      </div>
-                    ))}
+                      );
+                    })}
                   </div>
                 ) : (
                   <div className="p-8 text-center">
