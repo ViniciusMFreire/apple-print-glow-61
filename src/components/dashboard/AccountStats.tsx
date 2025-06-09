@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { getResponsiveClasses } from "@/utils/responsiveUtils";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
@@ -77,7 +76,7 @@ export const AccountStats = () => {
 
   return (
     <TooltipProvider>
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 w-full">
         {stats.map((stat, index) => {
           const IconComponent = stat.icon;
           return (
@@ -85,14 +84,14 @@ export const AccountStats = () => {
               <Tooltip>
                 <TooltipTrigger asChild>
                   <PopoverTrigger asChild>
-                    <div className={`bg-white rounded-lg shadow-sm text-center cursor-pointer hover:shadow-md transition-shadow ${getResponsiveClasses.padding.sm} h-full flex flex-col items-center justify-center min-h-[140px]`}>
-                      <div className={`w-14 h-14 ${stat.bgColor} rounded-full flex items-center justify-center mx-auto mb-3`}>
-                        <IconComponent className={`w-7 h-7 ${stat.iconColor}`} />
+                    <div className="bg-white rounded-lg shadow-sm text-center cursor-pointer hover:shadow-md transition-shadow p-3 sm:p-4 h-full flex flex-col items-center justify-center min-h-[120px] sm:min-h-[140px] w-full overflow-hidden">
+                      <div className={`w-10 h-10 sm:w-14 sm:h-14 ${stat.bgColor} rounded-full flex items-center justify-center mx-auto mb-2 sm:mb-3 flex-shrink-0`}>
+                        <IconComponent className="w-5 h-5 sm:w-7 sm:h-7 ${stat.iconColor}" />
                       </div>
-                      <h3 className={`font-medium text-gray-900 mb-2 ${getResponsiveClasses.textSize.sm}`}>
+                      <h3 className="font-medium text-gray-900 mb-1 sm:mb-2 text-sm sm:text-base truncate w-full">
                         {stat.title}
                       </h3>
-                      <p className={`font-bold text-gray-900 ${getResponsiveClasses.textSize.sm} break-words px-2 text-center leading-tight`}>
+                      <p className="font-bold text-gray-900 text-xs sm:text-sm break-words px-1 sm:px-2 text-center leading-tight w-full">
                         {stat.value}
                       </p>
                     </div>
@@ -103,7 +102,7 @@ export const AccountStats = () => {
                 </TooltipContent>
               </Tooltip>
               
-              <PopoverContent className="w-96">
+              <PopoverContent className="w-80 sm:w-96 max-w-[calc(100vw-2rem)]">
                 <div className="space-y-2">
                   <h4 className="font-semibold text-gray-900">{stat.title}</h4>
                   <p className="text-sm text-gray-600">{stat.details}</p>

@@ -34,7 +34,7 @@ const Index = () => {
     <div className="min-h-screen bg-background">
       <ResponsiveContainer variant="dashboard">
         {/* Header com botão de logout */}
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4 sm:mb-6">
           <ResponsiveText size="2xl" weight="bold" color="default">
             Dashboard
           </ResponsiveText>
@@ -42,16 +42,16 @@ const Index = () => {
         </div>
 
         {/* Dashboard Header com botão de busca */}
-        <div className="mb-6">
+        <div className="mb-4 sm:mb-6">
           <DashboardHeader onSearchUser={handleSearchUser} />
         </div>
         
         {/* Layout reorganizado com 2 colunas */}
-        <div className="space-y-6">
+        <div className="space-y-4 sm:space-y-6">
           {/* Grid principal com 2 colunas */}
           <ResponsiveGrid variant="dashboard" gap="lg">
             {/* Coluna esquerda - 2/3 da largura */}
-            <div className="lg:col-span-2 space-y-6">
+            <div className="xl:col-span-2 space-y-4 sm:space-y-6 w-full min-w-0">
               {/* Dados do cliente */}
               <UserProfile clientData={currentClient} />
               
@@ -69,7 +69,7 @@ const Index = () => {
             </div>
             
             {/* Coluna direita - 1/3 da largura */}
-            <div className="lg:col-span-1 space-y-6">
+            <div className="xl:col-span-1 space-y-4 sm:space-y-6 w-full min-w-0">
               {/* Painéis Quero Quero e Eventos */}
               <ActivityList />
             </div>
