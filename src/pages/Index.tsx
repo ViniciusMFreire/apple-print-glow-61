@@ -46,32 +46,32 @@ const Index = () => {
           <DashboardHeader onSearchUser={handleSearchUser} />
         </div>
         
-        {/* Layout seguindo exatamente a imagem anexa */}
+        {/* Layout reorganizado com 2 colunas */}
         <div className="space-y-6">
-          {/* Perfil do usuário - largura total */}
-          <UserProfile clientData={currentClient} />
-          
-          {/* Stats da conta - 3 colunas horizontais */}
+          {/* Stats da conta - largura total */}
           <AccountStats />
           
           {/* Grid principal com 2 colunas */}
           <ResponsiveGrid variant="dashboard" gap="lg">
             {/* Coluna esquerda - 2/3 da largura */}
             <div className="lg:col-span-2 space-y-6">
+              {/* Dados do cliente */}
+              <UserProfile clientData={currentClient} />
+              
+              {/* Limites */}
+              <LimitsSection />
+              
               {/* Seção de fatura */}
               <InvoiceSection />
               
-              {/* Lista de atividades/eventos */}
-              <ActivityList />
+              {/* Últimas movimentações */}
+              <RecentMovements />
             </div>
             
             {/* Coluna direita - 1/3 da largura */}
             <div className="lg:col-span-1 space-y-6">
-              {/* Limites */}
-              <LimitsSection />
-              
-              {/* Movimentações recentes */}
-              <RecentMovements />
+              {/* Painéis Quero Quero e Eventos */}
+              <ActivityList />
             </div>
           </ResponsiveGrid>
         </div>
