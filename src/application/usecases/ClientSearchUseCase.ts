@@ -1,7 +1,7 @@
 
 import { IClientRepository } from '../../domain/repositories/IClientRepository';
 import { Client, ClientSearchCriteria } from '../../domain/entities/Client';
-import { validateCPF, validatePhone } from '../../utils/cpfValidator';
+import { DocumentValidator } from '../../lib/validators';
 
 export class ClientSearchUseCase {
   constructor(private clientRepository: IClientRepository) {}
@@ -23,50 +23,15 @@ export class ClientSearchUseCase {
   }
 
   detectSearchType(value: string): string {
-    const cleanValue = value.replace(/\D/g, '');
-    
-    console.log('Detectando tipo para:', value, 'Limpo:', cleanValue);
-    
-    // Verifica se é um CPF válido
-    if (cleanValue.length === 11 && validateCPF(cleanValue)) {
-      console.log('Detectado como CPF');
-      return 'CPF';
-    }
-    
-    // Verifica se é um celular válido
-    if (cleanValue.length === 11 && validatePhone(cleanValue)) {
-      console.log('Detectado como Telefone');
-      return 'Telefone';
-    }
-    
-    // Verifica CNPJ
-    if (cleanValue.length === 14) return 'CNPJ';
-    
-    // Verifica outros padrões
-    if (/^CT-/.test(value.toUpperCase())) return 'Contrato';
-    if (/^PD-/.test(value.toUpperCase())) return 'Pedido';
-    if (cleanValue.length === 8) return 'Conta';
-    
-    return 'Texto';
+    return DocumentValidator.detectPrimaryType(value);
   }
 
   checkAmbiguousSearch(value: string): { isCpf: boolean; isPhone: boolean } {
-    const cleanValue = value.replace(/\D/g, '');
-    
-    console.log('Verificando ambiguidade para:', value, 'Limpo:', cleanValue);
-    
-    if (cleanValue.length === 11) {
-      const isCpf = validateCPF(cleanValue);
-      const isPhone = validatePhone(cleanValue);
-      
-      console.log('É CPF válido:', isCpf);
-      console.log('É telefone válido:', isPhone);
-      console.log('É ambíguo:', isCpf && isPhone);
-      
-      return { isCpf, isPhone };
-    }
-    
-    return { isCpf: false, isPhone: false };
+    const ambiguity = DocumentValidator.checkAmbiguity(value);
+    return {
+      isCpf: ambiguity.isCpf,
+      isPhone: ambiguity.isPhone
+    };
   }
 
   mapSearchTypeToEnum(type: string): 'cpf' | 'account' | 'phone' | 'contract' {
