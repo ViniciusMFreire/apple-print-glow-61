@@ -25,13 +25,17 @@ export class ClientSearchUseCase {
   detectSearchType(value: string): string {
     const cleanValue = value.replace(/\D/g, '');
     
+    console.log('Detectando tipo para:', value, 'Limpo:', cleanValue);
+    
     // Verifica se é um CPF válido
     if (cleanValue.length === 11 && validateCPF(cleanValue)) {
+      console.log('Detectado como CPF');
       return 'CPF';
     }
     
     // Verifica se é um celular válido
     if (cleanValue.length === 11 && validatePhone(cleanValue)) {
+      console.log('Detectado como Telefone');
       return 'Telefone';
     }
     
@@ -49,9 +53,16 @@ export class ClientSearchUseCase {
   checkAmbiguousSearch(value: string): { isCpf: boolean; isPhone: boolean } {
     const cleanValue = value.replace(/\D/g, '');
     
+    console.log('Verificando ambiguidade para:', value, 'Limpo:', cleanValue);
+    
     if (cleanValue.length === 11) {
       const isCpf = validateCPF(cleanValue);
       const isPhone = validatePhone(cleanValue);
+      
+      console.log('É CPF válido:', isCpf);
+      console.log('É telefone válido:', isPhone);
+      console.log('É ambíguo:', isCpf && isPhone);
+      
       return { isCpf, isPhone };
     }
     
