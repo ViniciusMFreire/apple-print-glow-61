@@ -48,15 +48,15 @@ const Index = () => {
         
         {/* Layout reorganizado com 2 colunas */}
         <div className="space-y-6">
-          {/* Stats da conta - largura total */}
-          <AccountStats />
-          
           {/* Grid principal com 2 colunas */}
           <ResponsiveGrid variant="dashboard" gap="lg">
             {/* Coluna esquerda - 2/3 da largura */}
             <div className="lg:col-span-2 space-y-6">
               {/* Dados do cliente */}
               <UserProfile clientData={currentClient} />
+              
+              {/* Stats da conta - abaixo dos dados do cliente */}
+              <AccountStats />
               
               {/* Limites */}
               <LimitsSection />
