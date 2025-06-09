@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
@@ -11,6 +10,7 @@ import { ResponsiveText } from '@/components/ui/responsive-text';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useClientSearchModal } from '@/presentation/hooks/useClientSearchModal';
 import { SearchTypeSelector } from './SearchTypeSelector';
+import { DocumentValidator } from '@/lib/validators';
 
 interface ClientSearchModalProps {
   isOpen: boolean;
@@ -52,8 +52,26 @@ export const ClientSearchModal = ({ isOpen, onClose, onSelectClient }: ClientSea
     onClose();
   });
 
-  const searchType = searchTerm ? detectSearchType(searchTerm) : '';
-  const IconComponent = searchType ? iconMap[getTypeIcon(searchType.toLowerCase()) as keyof typeof iconMap] : Search;
+  const getSearchTypeBadges = (searchValue: string) => {
+    if (!searchValue) return [];
+    
+    const ambiguity = DocumentValidator.checkAmbiguity(searchValue);
+    const primaryType = DocumentValidator.detectPrimaryType(searchValue);
+    
+    if (ambiguity.isAmbiguous) {
+      return ambiguity.possibleTypes.map(type => ({
+        type: type.toLowerCase(),
+        label: type
+      }));
+    }
+    
+    return [{
+      type: primaryType.toLowerCase(),
+      label: primaryType
+    }];
+  };
+
+  const searchTypeBadges = getSearchTypeBadges(searchTerm);
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -77,12 +95,17 @@ export const ClientSearchModal = ({ isOpen, onClose, onSelectClient }: ClientSea
               />
             </div>
 
-            {searchTerm && !showTypeSelector && (
-              <div className="mt-2">
-                <Badge variant="outline" className={getTypeColor(searchType.toLowerCase())}>
-                  <IconComponent className="h-4 w-4" />
-                  <span className="ml-1">{searchType}</span>
-                </Badge>
+            {searchTerm && !showTypeSelector && searchTypeBadges.length > 0 && (
+              <div className="mt-2 flex flex-wrap gap-2">
+                {searchTypeBadges.map((badge, index) => {
+                  const IconComponent = iconMap[getTypeIcon(badge.type) as keyof typeof iconMap] || Search;
+                  return (
+                    <Badge key={index} variant="outline" className={getTypeColor(badge.type)}>
+                      <IconComponent className="h-4 w-4" />
+                      <span className="ml-1">{badge.label}</span>
+                    </Badge>
+                  );
+                })}
               </div>
             )}
           </div>
